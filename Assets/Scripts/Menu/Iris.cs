@@ -30,10 +30,10 @@ public class Iris : MonoBehaviour
         Vector3 eye_pos = Eye.transform.position;
         Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 eye_to_mouse = new Vector2(mouse_pos.x - eye_pos.x, mouse_pos.y - eye_pos.y);
-        float R = 0.1f;
-        float l = 10f;
-        float lambda = eye_size.x / 2.0f - iris_size.x;
-        lambda = R - R * Mathf.Exp(-l * lambda); 
+        float R = eye_size.x / 2.0f - iris_size.x;
+        float l = 0.5f;
+        float lambda = R - R * Mathf.Exp(-l * eye_to_mouse.magnitude);
+        eye_to_mouse.Normalize();
         computed_pos = new Vector3(eye_pos.x + eye_to_mouse.x * lambda, eye_pos.y + eye_to_mouse.y * lambda, eye_pos.z-0.1f);
         this.transform.position = computed_pos;
     }
