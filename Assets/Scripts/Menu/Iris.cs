@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class Iris : MonoBehaviour
 {
+    private enum FollowState { Mouse, Player};
     [SerializeField]
     GameObject Eye;
+    [SerializeField]
+    GameObject Player;
 
     private Vector2 eye_size;
     private Vector2 iris_size;
     private Vector3 computed_pos;
+    private FollowState follow_state;
+    private Vector2 target_pos;
 
     // Start is called before the first frame update
     void Start()
@@ -21,15 +26,29 @@ public class Iris : MonoBehaviour
 
     void Initialize()
     {
+        target_pos = new Vector2(0, 0);
+        follow_state = FollowState.Mouse; 
+    }
 
+    public void quitMenu()
+    {
+        follow_state = FollowState.Player; 
+    }
+
+    public void enterMenu()
+    {
+        follow_state = FollowState.Mouse;
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector3 eye_pos = Eye.transform.position;
-        Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 eye_to_mouse = new Vector2(mouse_pos.x - eye_pos.x, mouse_pos.y - eye_pos.y);
+        if (this.follow_state == FollowState.Mouse)
+            target_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        else if (this.follow_state == FollowState.Player)
+            target_pos = new Vector2(0, 0);
+        Vector2 eye_to_mouse = new Vector2(target_pos.x - eye_pos.x, target_pos.y - eye_pos.y);
         float R = eye_size.x / 2.0f - iris_size.x;
         float l = 0.5f;
         float lambda = R - R * Mathf.Exp(-l * eye_to_mouse.magnitude);
