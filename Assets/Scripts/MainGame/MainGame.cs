@@ -9,7 +9,7 @@ public class MainGame : MonoBehaviour
 
     [SerializeField] GameObject Myelines;
     [SerializeField] GameObject CellulesBlanches;
-    [SerializeField] CelluleBlanche celluleBlanchePrefab;
+    [SerializeField] WhiteCell celluleBlanchePrefab;
 
 
 
@@ -47,6 +47,9 @@ public class MainGame : MonoBehaviour
     }
 
     void wavesManagement() {
+
+        Debug.Log(timer_wave + "/" + duration_wave);
+
         if (current_wave < total_waves) {
             //if we are at the final wave, there is no need to use the timer. Only use it when current_wave < total_waves
             timer_wave += Time.deltaTime;
@@ -83,7 +86,7 @@ public class MainGame : MonoBehaviour
 
         //create cell
 
-        CelluleBlanche c = CelluleBlanche.Instantiate(celluleBlanchePrefab);
+        WhiteCell c = WhiteCell.Instantiate(celluleBlanchePrefab);
         c.transform.SetParent(CellulesBlanches.transform, false);
         c.transform.position = pos;
 

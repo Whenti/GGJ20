@@ -1440,7 +1440,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1412488320}
   m_Layer: 0
-  m_Name: CellulesBlanches
+  m_Name: WhiteCells
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1492,7 +1492,8 @@ MonoBehaviour:
   player: {fileID: 1409499001}
   Myelines: {fileID: 1097748454}
   CellulesBlanches: {fileID: 1412488319}
-  celluleBlanchePrefab: {fileID: 0}
+  celluleBlanchePrefab: {fileID: 4082731434033324815, guid: 46419f0855391624b9062360a61f0edc,
+    type: 3}
 --- !u!4 &1421690944
 Transform:
   m_ObjectHideFlags: 0

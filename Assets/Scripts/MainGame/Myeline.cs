@@ -38,7 +38,7 @@ public class Myeline : MonoBehaviour
     }
 
     public void Initialize() {
-        state = State.destructed;
+        state = State.active;
         can_give_electric = true;
         timer_electricity = 0;
         timer_invisible = 0;
