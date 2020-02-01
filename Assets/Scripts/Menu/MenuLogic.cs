@@ -37,11 +37,13 @@ public class MenuLogic : MonoBehaviour
     [SerializeField]
     GameObject credits_text;
     [SerializeField]
+    GameObject play_text;
+    [SerializeField]
     GameObject left_paupiere;
     [SerializeField]
     GameObject right_paupiere;
 
-    private enum MenuState { ClosedLeft, ClosedRight, Normal, Quitting };
+    private enum MenuState { ClosedLeft, ClosedRight, Normal, Quitting, Playing };
     private MenuState menu_state;
 
     // Start is called before the first frame update
@@ -68,6 +70,7 @@ public class MenuLogic : MonoBehaviour
             quit_text.gameObject.SetActive(true);
             sure_text_right.gameObject.SetActive(false);
             sure_text_left.gameObject.SetActive(false);
+            play_text.SetActive(true);
             left_paupiere.gameObject.SetActive(false);
             right_paupiere.gameObject.SetActive(false);
         }
@@ -90,21 +93,30 @@ public class MenuLogic : MonoBehaviour
         else if(menu == MenuState.Quitting)
         {
         }
+        else if(menu == MenuState.Playing)
+        {
+            iris_left.quitMenu();
+            iris_right.quitMenu();
+            canvas_menu.enabled = false;
+            my_camera.trigger();
+            credits_text.SetActive(false);
+            quit_text.SetActive(false);
+            sure_text_left.SetActive(false);
+            sure_text_right.SetActive(false);
+            play_text.SetActive(false);
+
+            GameObject.Find("MainGame").GetComponent<MainGame>().play();
+        }
     }
 
     void ButtonPlayClicked()
     {
-        startGame();
+        setState(MenuState.Playing);
     }
 
-    void startGame()
+    public void switchView()
     {
-        iris_left.quitMenu();
-        iris_right.quitMenu();
-        canvas_menu.enabled = false;
-        my_camera.trigger();
-
-        GameObject.Find("MainGame").GetComponent<MainGame>().play();
+        my_camera.trigger();                
     }
 
     void endGame()
