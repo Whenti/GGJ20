@@ -30,6 +30,8 @@ public class MainGame : MonoBehaviour
     //------------------------  WAVE GENERATION     ----------------------------------
     //--------------------------------------------------------------------------------
 
+    [SerializeField] GameObject Generators;
+
     [SerializeField] GameObject CellulesBlanches;
 
     [SerializeField] WhiteCell celluleBlanchePrefab;
@@ -197,7 +199,8 @@ public class MainGame : MonoBehaviour
     public void createCell() {
         //choose a position
 
-        Vector3 pos = new Vector3(0, 0, 0);
+        int index = Random.Range(0, Generators.transform.childCount);
+        Vector3 pos = Generators.transform.GetChild(index).transform.position;
 
         //create cell
 
@@ -253,7 +256,10 @@ public class MainGame : MonoBehaviour
 
         if (a != null) {
             a.transform.SetParent(Ammunitions.transform, false);
-            a.transform.position = new Vector3(0, 0, 0);
+
+            int index = Random.Range(0, Generators.transform.childCount);
+            Vector3 pos = Generators.transform.GetChild(index).transform.position;
+            a.transform.position = pos;
         }
     }
 
@@ -295,5 +301,16 @@ public class MainGame : MonoBehaviour
 
     public void gameOver() {
         //afficher canvas game over
+    }
+
+    public void clean() {
+        //ammo
+        foreach (Transform t in Ammunitions.transform) {
+            Destroy(t.gameObject);
+        }
+        //white cells
+        foreach (Transform t in CellulesBlanches.transform) {
+            Destroy(t.gameObject);
+        }
     }
 }
