@@ -21,6 +21,8 @@ public class Syringe : MonoBehaviour
     GameObject left_iris;
     [SerializeField]
     GameObject right_iris;
+    [SerializeField]
+    GameObject liquid;
 
     Vector3 left_iris_scale;
     Vector3 right_iris_scale;
@@ -90,10 +92,12 @@ public class Syringe : MonoBehaviour
             int local_timer = timer - TIME_TO_NECK;
             float lambda = (float)local_timer / (float)this.TIME_ON_NECK;
             this.transform.position = neck_pos;
-            float h = handle.GetComponent<Renderer>().bounds.size.y * handle.transform.localScale.y / handle.transform.lossyScale.y;           
+            float h = handle.GetComponent<Renderer>().bounds.size.y * handle.transform.localScale.y / handle.transform.lossyScale.y * 0.5f;           
             this.handle.transform.localPosition = handle_initial_pos + new Vector3(0f, - lambda * h, 0f);
             left_iris.transform.localScale = left_iris_scale + lambda * 0.8f * left_iris_scale;
             right_iris.transform.localScale = right_iris_scale + lambda * 0.8f * right_iris_scale;
+            liquid.transform.localScale = new Vector3(1.0f, 1-lambda, 1.0f);
+            this.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -40.0f);
         }
         else if(timer < TIME_TO_NECK * 2 + TIME_ON_NECK)
         {

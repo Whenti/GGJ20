@@ -36,7 +36,7 @@ public class CameraLogic : MonoBehaviour
     {
         if (this.camera_state == CameraState.Game)
         {
-
+            transform.position = player.transform.position;
         }
         else if (this.camera_state == CameraState.Overall)
         {
