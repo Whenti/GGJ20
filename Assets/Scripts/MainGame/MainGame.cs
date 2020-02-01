@@ -7,6 +7,7 @@ public class MainGame : MonoBehaviour
 {
 
     [SerializeField] Player player;
+    [SerializeField] Transform posInitialePlayer;
 
     [SerializeField] GameObject Myelines;
     [SerializeField] PauseLogic pause_canvas; 
@@ -83,6 +84,7 @@ public class MainGame : MonoBehaviour
         life_display = life;
 
         player.Initialize();
+        player.transform.position = posInitialePlayer.position;
 
 
         foreach (Transform t in Myelines.transform) {

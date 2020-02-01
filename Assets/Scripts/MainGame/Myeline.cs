@@ -134,13 +134,13 @@ public class Myeline : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) {
 
-        if (collision.gameObject.tag == "ammo") {
+        if (collision.gameObject.tag == "ammo" && collision.GetComponent<Ammunition>().isShot()) {
             collision.GetComponent<Ammunition>().destroy();
 
             repair();
 
 
-        }else if (collision.gameObject.tag == "mega_ammo") {
+        }else if (collision.gameObject.tag == "mega_ammo" && collision.GetComponent<Ammunition>().isShot()) {
             collision.GetComponent<Ammunition>().destroy();
 
             //mega_repair();

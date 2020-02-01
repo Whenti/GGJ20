@@ -12,6 +12,9 @@ public class Ammunition : MonoBehaviour
 
     Vector3 direction;
     float speed = 0.1f;
+    Vector2 speedVector;
+    private float angle_accel;
+    private float speed_norm;
 
     float seed;
 
@@ -24,6 +27,13 @@ public class Ammunition : MonoBehaviour
         mainGame = GameObject.Find("MainGame").GetComponent<MainGame>();
         timer = 0;
         seed = Random.value * 1000;
+
+
+        speed_norm = 1f;
+        angle_accel = 0.0f;
+        float angle = Random.Range(0f, 360.0f);
+        this.speedVector = new Vector2(speed_norm, 0.0f);
+        this.speedVector = this.speedVector.Rotate(angle);
     }
 
     // Update is called once per frame
@@ -54,6 +64,16 @@ public class Ammunition : MonoBehaviour
                                 new Vector3(    Mathf.Cos(timer*freq_big*1.4329f+seed),
                                                 Mathf.Sin(timer*freq_big*1.0389f+seed),
                                                 0)*radius_big;
+
+
+            //update `angle_accel` with `angle_var
+            int angle_force = 3;
+            float lambda = 0.5f;
+            float angle_delta = RandomGaussianGenerator.GenerateNormalRandom(0, 10.0f, -angle_force, angle_force);
+
+            angle_accel = lambda * angle_accel + (1 - lambda) * angle_delta;
+            this.speedVector = this.speedVector.Rotate(angle_accel);
+            this.GetComponent<Rigidbody2D>().velocity = this.speedVector;
         }
     }
 
@@ -94,5 +114,10 @@ public class Ammunition : MonoBehaviour
     public bool isShot() {
         return shot;
     }
-    
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.gameObject.tag == "obstacle") {
+            this.speedVector = speedVector.Rotate(180.0f);
+            this.GetComponent<Rigidbody2D>().velocity = speedVector;
+        }
+    }
 }
