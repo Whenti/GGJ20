@@ -10,6 +10,7 @@ public class MainGame : MonoBehaviour
     [SerializeField] Camera camera;
 
     [SerializeField] GameObject Myelines;
+    [SerializeField] MenuLogic menu_logic;
 
    
 
@@ -68,6 +69,11 @@ public class MainGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            menu_logic.switchView();
+        }
+
         wavesManagement();
         itemsManagement();
         ammoGeneration();
