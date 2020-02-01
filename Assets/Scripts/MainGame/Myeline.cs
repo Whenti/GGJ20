@@ -125,22 +125,22 @@ public class Myeline : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) {
 
         if (collision.gameObject.tag == "ammo") {
-            collision.GetComponent<Ammunition>().destruction();
+            collision.GetComponent<Ammunition>().destroy();
 
             repair();
 
 
-        }else if (collision.gameObject.tag == "mega_ammo") {
-            collision.GetComponent<Ammunition>().destruction();
+        }/*else if (collision.gameObject.tag == "mega_ammo") {
+            collision.GetComponent<Ammunition>().destroy();
 
             mega_repair();
             
             
-        }
+        }*/
     }
 
     public void destroy() {
-        
+        state = State.destructed;
     }
 
     public bool isActive() { return state == State.active; }

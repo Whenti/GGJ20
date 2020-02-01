@@ -24,7 +24,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] Ammunition ammoPrefab;
     [SerializeField] Ammunition megaAmmoPrefab;
-    int ammo;
+
+    List<string> ammo;
     int ammo_max;
 
     Vector3 aim_direction;
@@ -57,7 +58,8 @@ public class Player : MonoBehaviour
         left = false;
 
         ammo_max = 50;
-        ammo = ammo_max;
+        ammo = new List<string>();
+        ammo.Clear();
         timer_hold = 0;
         hold_blast = false;
 
@@ -108,44 +110,45 @@ public class Player : MonoBehaviour
     }
 
     void shoot() {
-        if (ammo > 0) {
+        if (ammo.Count > 0) {
             
-            ammo--;
-
-
-
-            if (timer_hold >= duration_hold) {
+            //if (timer_hold >= duration_hold) {
+            if(ammo[ammo.Count-1]=="mega_ammo"){
                 //mega ammo
 
                 Ammunition a = Ammunition.Instantiate(megaAmmoPrefab);
                 a.transform.position = transform.position+(aim_direction).normalized*distance_aim;
                 a.setDirection(aim_direction);
-            } else {
+                a.setShot(true);
+            } else if(ammo[ammo.Count - 1] == "ammo") {
                 //regular ammo
 
                 Ammunition a = Ammunition.Instantiate(ammoPrefab);
                 a.transform.position = transform.position + (aim_direction).normalized * distance_aim;
                 a.setDirection(aim_direction);
+                a.setShot(true);
             }
+
+            ammo.RemoveAt(ammo.Count - 1);
 
             timer_hold = 0;
             hold_blast = false;
 
         } else {
-            //cannot shoot !
+            //cannot shoot ! no ammo
         }
     }
 
     void blastManagement() {
-        Debug.Log(" Timer : " + timer_hold);
         if (hold_blast) {
             timer_hold += Time.deltaTime;
         }
     }
 
-    public void addAmmo(int num) {
-        ammo += num;
-        ammo = Mathf.Max(0, Mathf.Min(ammo_max, ammo));
+    public void addAmmo(string type) {
+        if (ammo.Count < ammo_max) {
+            ammo.Add(type);
+        }
     }
 
     void inputsManagement() {
@@ -176,6 +179,17 @@ public class Player : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(0)) {
             shoot();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.gameObject.tag == "mega_ammo" && !collision.GetComponent<Ammunition>().isShot()) {
+            collision.GetComponent<Ammunition>().destroy();
+            addAmmo("mega_ammo");
+        }
+        if (collision.gameObject.tag == "ammo" && !collision.GetComponent<Ammunition>().isShot()) {
+            collision.GetComponent<Ammunition>().destroy();
+            addAmmo("ammo");
         }
     }
 }

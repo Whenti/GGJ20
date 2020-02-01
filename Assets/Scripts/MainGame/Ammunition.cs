@@ -7,9 +7,12 @@ public class Ammunition : MonoBehaviour
 
     [SerializeField] Particule particulePrefab;
 
-    Vector3 direction;
+    bool shot=false;
 
+    Vector3 direction;
     float speed = 0.1f;
+
+    float seed;
 
     float timer;
     float duration = 10.0f;
@@ -18,6 +21,7 @@ public class Ammunition : MonoBehaviour
     void Start()
     {
         timer = 0;
+        seed = Random.value * 1000;
     }
 
     // Update is called once per frame
@@ -32,18 +36,43 @@ public class Ammunition : MonoBehaviour
     }
 
     void movementManagement() {
-        transform.position += direction.normalized * speed;
-    }
 
-    void destructionManagement() {
-        timer += Time.deltaTime;
+        if (shot) {
+            transform.position += direction.normalized * speed;
+        } else {
+            float freq_small = 3.0f;
+            float radius_small = 0.001f;
 
-        if (timer >= duration) {
-            destruction();
+            float freq_big = 1.0f;
+            float radius_big = 0.01f;
+
+            transform.position += new Vector3(Mathf.Cos(timer*freq_small*1.30289f+seed),
+                                               Mathf.Sin(timer* freq_small * 1.02308f+seed),
+                                               0)*radius_small+
+                                new Vector3(    Mathf.Cos(timer*freq_big*1.4329f+seed),
+                                                Mathf.Sin(timer*freq_big*1.0389f+seed),
+                                                0)*radius_big;
         }
     }
 
-    public void destruction() {
+    void destructionManagement() {
+        if (shot) {
+            timer += Time.deltaTime;
+
+            if (timer >= duration) {
+                destroy();
+            }
+        } else {
+            timer += Time.deltaTime;
+        }
+    }
+
+    public void setShot(bool b) {
+        shot = b;
+        timer = 0;
+    }
+
+    public void destroy() {
 
         for (int i = 0; i < 10; ++i) {
             //create particule
@@ -56,5 +85,8 @@ public class Ammunition : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public bool isShot() {
+        return shot;
+    }
     
 }
