@@ -17,23 +17,63 @@ public class Syringe : MonoBehaviour
     [SerializeField]
     GameObject handle;
     private Vector3 handle_initial_pos;
+    [SerializeField]
+    GameObject left_iris;
+    [SerializeField]
+    GameObject right_iris;
 
+    Vector3 left_iris_scale;
+    Vector3 right_iris_scale;
+    
+    public enum SyringeMode {None, Waiting, Moving, Done};
+    
+    public SyringeMode syringe_mode;
     // Start is called before the first frame update
     void Start()
     {
-        timer = -1;
         neck_pos = neck.gameObject.transform.position;
         outside_pos = this.gameObject.transform.position;
         MAGNITUDE = my_camera.getHeight() / 3.0f;
         TIME_TO_NECK = 50;
-        TIME_ON_NECK = 150;
+        TIME_ON_NECK = 50;
         handle_initial_pos = handle.gameObject.transform.localPosition;
+        left_iris_scale = left_iris.transform.localScale;
+        right_iris_scale = right_iris.transform.localScale;
+        this.Initialize();
     }
 
+    public void Initialize()
+    {
+        timer = 0;
+        handle.transform.position = handle_initial_pos;
+        syringe_mode = SyringeMode.None;
+        left_iris.transform.localScale = left_iris_scale;
+        right_iris.transform.localScale = right_iris_scale;
+    }
+
+    public void Prepare()
+    {
+        syringe_mode = SyringeMode.Waiting;
+        my_camera.trigger();
+    }
+        
     // Update is called once per frame
     void Update()
     {
-        if(timer < 0) { return; }
+        if (syringe_mode == SyringeMode.None || syringe_mode == SyringeMode.Done)
+            return;
+        if (syringe_mode == SyringeMode.Waiting)
+        {
+            if (my_camera.camera_state == CameraLogic.CameraState.Overall)
+            {
+                syringe_mode = SyringeMode.Moving;
+            }
+            else if(my_camera.camera_state == CameraLogic.CameraState.Game)
+            {
+                syringe_mode = SyringeMode.Done;
+            }
+            return;
+        }
         timer += 1;
         if(timer < TIME_TO_NECK)
         {
@@ -49,7 +89,9 @@ public class Syringe : MonoBehaviour
             float lambda = (float)local_timer / (float)this.TIME_ON_NECK;
             this.transform.position = neck_pos;
             float h = handle.GetComponent<Renderer>().bounds.size.y * handle.transform.localScale.y / handle.transform.lossyScale.y;           
-            this.handle.transform.localPosition = handle_initial_pos + new Vector3(0f, - lambda * h, 0f); 
+            this.handle.transform.localPosition = handle_initial_pos + new Vector3(0f, - lambda * h, 0f);
+            left_iris.transform.localScale = left_iris_scale + lambda * 0.8f * left_iris_scale;
+            right_iris.transform.localScale = right_iris_scale + lambda * 0.8f * right_iris_scale;
         }
         else if(timer < TIME_TO_NECK * 2 + TIME_ON_NECK)
         {
@@ -60,6 +102,11 @@ public class Syringe : MonoBehaviour
 
             this.transform.position = lambda * neck_pos + (1 - lambda) * outside_pos;
             this.setAmplitude(lambda);
+        }
+        else
+        {
+            syringe_mode = SyringeMode.Waiting;
+            my_camera.trigger();
         }
     }
 

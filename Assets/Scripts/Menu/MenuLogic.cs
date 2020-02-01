@@ -114,11 +114,6 @@ public class MenuLogic : MonoBehaviour
         setState(MenuState.Playing);
     }
 
-    public void switchView()
-    {
-        my_camera.trigger();                
-    }
-
     void endGame()
     {
         iris_left.enterMenu();

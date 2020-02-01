@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CameraLogic : MonoBehaviour
 {
-    private enum CameraState { Overall, ToOverall, Game, ToGame };
-    private CameraState camera_state;
+    public enum CameraState { Overall, ToOverall, Game, ToGame };
+    public CameraState camera_state;
     
     private int timer;
     private int T_transition;

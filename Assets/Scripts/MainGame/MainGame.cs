@@ -7,7 +7,6 @@ public class MainGame : MonoBehaviour
 {
 
     [SerializeField] Player player;
-    [SerializeField] Camera camera;
 
     [SerializeField] GameObject Myelines;
     [SerializeField] MenuLogic menu_logic;
@@ -17,8 +16,9 @@ public class MainGame : MonoBehaviour
     //--------------------------------------------------------------------------------
     //------------------------  VICTORY AND GAME OVER---------------------------------
     //--------------------------------------------------------------------------------
-
-    public bool on_game { get; private set; }
+    
+    public enum GameState { Game, Pause, Injection, Quitting };
+    public GameState game_state;
 
     double life;
     double life_display;
@@ -59,6 +59,11 @@ public class MainGame : MonoBehaviour
     [SerializeField] Sprite sprite_ammo;
     [SerializeField] Sprite sprite_mega_ammo;
 
+    //--------------------------------------------------------------------------------
+    //------------------------  AMMO VISUALIZATION  ----------------------------------
+    //--------------------------------------------------------------------------------
+    [SerializeField] Syringe syringe;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,7 +71,7 @@ public class MainGame : MonoBehaviour
     }
 
     public void Initialize() {
-        on_game = false;
+        game_state = GameState.Pause;
         timer_wave = 0;
         duration_wave = 10.0f;
         current_wave = 0;
@@ -85,25 +90,37 @@ public class MainGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        switch (game_state)
         {
-            menu_logic.switchView();
+            case GameState.Game:
+                wavesManagement();
+                itemsManagement();
+                ammoGeneration();
+                healthManagement();
+                break;
+            case GameState.Injection:
+                if (syringe.syringe_mode == Syringe.SyringeMode.Done)
+                {
+                    syringe.Initialize();
+                    game_state = GameState.Game;
+                }
+                break;
+            case GameState.Pause:
+                break;
+            case GameState.Quitting:
+                break;
         }
-        if (on_game) {
-            wavesManagement();
-            itemsManagement();
-            ammoGeneration();
-            followPlayer();
-            healthManagement();
-        }
-
         if (Input.GetKeyDown(KeyCode.T)) {
             play();
+        }
+        if (Input.GetKeyDown(KeyCode.N)) {
+            syringe.Prepare();
+            this.game_state = GameState.Injection;
         }
     }
 
     public void play() {
-        on_game = true;
+        game_state = GameState.Game;
     }
 
     void wavesManagement() {
@@ -198,12 +215,6 @@ public class MainGame : MonoBehaviour
             a.transform.SetParent(Ammunitions.transform, false);
             a.transform.position = new Vector3(0, 0, 0);
         }
-    }
-
-
-    void followPlayer() {
-        Vector2 posPlayer = player.transform.position;
-        camera.transform.position = new Vector3(posPlayer.x, posPlayer.y, camera.transform.position.z);
     }
 
     public void addHealth(int i) {
