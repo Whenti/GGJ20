@@ -94,7 +94,7 @@ public class MenuLogic : MonoBehaviour
 
     void ButtonPlayClicked()
     {
-        startGame(); 
+        startGame();
     }
 
     void startGame()
@@ -103,6 +103,8 @@ public class MenuLogic : MonoBehaviour
         iris_right.quitMenu();
         canvas_menu.enabled = false;
         my_camera.trigger();
+
+        GameObject.Find("MainGame").GetComponent<MainGame>().play();
     }
 
     void endGame()

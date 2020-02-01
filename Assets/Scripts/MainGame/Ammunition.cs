@@ -77,12 +77,13 @@ public class Ammunition : MonoBehaviour
     public void destroy() {
 
         if (shot) {
-            for (int i = 0; i < 10; ++i) {
+            for (int i = 0; i < 5; ++i) {
                 //create particule
 
                 Particule p = Particule.Instantiate(particulePrefab);
                 p.transform.SetParent(mainGame.Particules.transform, false);
                 p.transform.position = transform.position;
+                p.transform.rotation = Quaternion.Euler(0, 0, Random.value * 10);
 
             }
         }

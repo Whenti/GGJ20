@@ -24,7 +24,7 @@ public class Particule : MonoBehaviour
         float alpha = Random.Range(0.0f, 2 * Mathf.PI);
         direction = new Vector2(Mathf.Cos(alpha), Mathf.Sin(alpha));
 
-        speed = 0.5f;
+        speed = 0.2f;
     }
 
     // Update is called once per frame
@@ -46,7 +46,7 @@ public class Particule : MonoBehaviour
     }
 
     void movementManagement() {
-        speed = speed * 0.8f;
+        speed = speed * 0.9f;
         transform.position += direction.normalized * speed;
     }
 }
