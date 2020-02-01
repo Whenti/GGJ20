@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 8734387521989557688}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 8734387523044062983}
   m_RootOrder: 0
@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 20
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: e51d035d00083f549a0dec5ca3ee3e59, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -125,6 +125,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29af15450fa9be04ea96ac309ed89f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 8734387521989557686}
+  sprites_idle:
+  - {fileID: 21300000, guid: b551f854dcc6a2247bbd33a0db1ec1ef, type: 3}
+  - {fileID: 21300000, guid: 1ad294cd3f53ec0439b6d3fe39e5a18b, type: 3}
+  - {fileID: 21300000, guid: cf97364ff2ad41f4fa85ae5abf41a195, type: 3}
+  - {fileID: 21300000, guid: 563e691ebb27a5b4a99394ef468d68cd, type: 3}
+  - {fileID: 21300000, guid: 27bbd5e37c571d44c858bbe26d81c119, type: 3}
+  - {fileID: 21300000, guid: e51d035d00083f549a0dec5ca3ee3e59, type: 3}
+  - {fileID: 21300000, guid: 73eec77a40529984a9c6e07fe58dcd30, type: 3}
+  - {fileID: 21300000, guid: e647ca770ef99f245951b9f2110c2a21, type: 3}
+  - {fileID: 21300000, guid: 751f67141ba021840a0cccc788792ce0, type: 3}
+  - {fileID: 21300000, guid: 3095bdba75e467149ada77ca0d7f97e8, type: 3}
+  - {fileID: 21300000, guid: c61f5b3328da4b84486ffba41cd65d42, type: 3}
+  - {fileID: 21300000, guid: 142ce842e5a9d40458717bc1d59aa630, type: 3}
+  - {fileID: 21300000, guid: 3a95d42f7c6566c4fb78387aba1f059a, type: 3}
+  - {fileID: 21300000, guid: 63a498e4194df0f48ae96e6e2e1b7849, type: 3}
+  - {fileID: 21300000, guid: 5012993d8b3020643aed1ce7fe397897, type: 3}
+  - {fileID: 21300000, guid: 3d8bce8f5ad078f42b8f0e2cb10007d4, type: 3}
+  - {fileID: 21300000, guid: d787d6095a34e734c93278de13bed108, type: 3}
+  - {fileID: 21300000, guid: 2f9d22a469ac2004aa675e6073c5d283, type: 3}
+  sprites_shoot:
+  - {fileID: 21300000, guid: 05b6316defa1c6b46959940bb776f733, type: 3}
+  - {fileID: 21300000, guid: 6525a9c71289b3b47ac7fe5ce4871231, type: 3}
+  - {fileID: 21300000, guid: 45428747f55f8fc4f87e935a0c0707bb, type: 3}
+  - {fileID: 21300000, guid: 805600cbae57a02459b4dd11a1f02343, type: 3}
+  - {fileID: 21300000, guid: 0e62f676f75b5bb4e80ab9ac75beb887, type: 3}
+  - {fileID: 21300000, guid: ba99859ab7a83044586f2c508504a890, type: 3}
   ammoPrefab: {fileID: 1701021180866998682, guid: ba603dd7be1b50f42a0a1b46012b3faa,
     type: 3}
   megaAmmoPrefab: {fileID: 7105490467052420546, guid: 99f09c0cada654544ab7007600957258,

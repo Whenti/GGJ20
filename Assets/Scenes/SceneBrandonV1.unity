@@ -290,6 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 586464467}
+  camera: {fileID: 103093826}
   Myelines: {fileID: 2147389512}
   CellulesBlanches: {fileID: 0}
   celluleBlanchePrefab: {fileID: 0}

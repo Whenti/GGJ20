@@ -2,8 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
-{
+public class Player : MonoBehaviour {
+
+    //--------------------------------------------------------------------------------
+    //------------------------  ANIMATIONS          ----------------------------------
+    //--------------------------------------------------------------------------------
+
+    [SerializeField] SpriteRenderer sr;
+    [SerializeField] List<Sprite> sprites_idle;
+    [SerializeField] List<Sprite> sprites_shoot;
+
+    bool is_shooting;
+
+    Animation2D anim_idle;
+    Animation2D anim_shoot;
 
     //--------------------------------------------------------------------------------
     //------------------------  MOVEMENTS           ----------------------------------
@@ -39,6 +51,10 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        anim_idle = new Animation2D("Idle", sprites_idle, 2.0f, true);
+        anim_shoot = new Animation2D("Shoot", sprites_shoot, 0.14f, false);
+
         Initialize();
     }
 
@@ -49,6 +65,7 @@ public class Player : MonoBehaviour
         movementManagement();
         aimManagement();
         blastManagement();
+        animationManagement();
     }
 
     public void Initialize() {
@@ -62,6 +79,8 @@ public class Player : MonoBehaviour
         ammo.Clear();
         timer_hold = 0;
         hold_blast = false;
+
+        is_shooting = false;
 
     }
 
@@ -129,6 +148,9 @@ public class Player : MonoBehaviour
                 a.setShot(true);
             }
 
+            is_shooting = true;
+            anim_shoot.start();
+
             ammo.RemoveAt(ammo.Count - 1);
 
             timer_hold = 0;
@@ -179,6 +201,18 @@ public class Player : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(0)) {
             shoot();
+        }
+    }
+
+    void animationManagement() {
+        if (is_shooting) {
+            if (anim_shoot.evolve(1.0f)) {
+                is_shooting = false;
+            }
+            sr.sprite = anim_shoot.currentSprite();
+        } else {
+            anim_idle.evolve(1.0f);
+            sr.sprite = anim_idle.currentSprite();
         }
     }
 

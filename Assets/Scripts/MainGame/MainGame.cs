@@ -7,6 +7,7 @@ public class MainGame : MonoBehaviour
 {
 
     [SerializeField] Player player;
+    [SerializeField] Camera camera;
 
     [SerializeField] GameObject Myelines;
 
@@ -69,6 +70,7 @@ public class MainGame : MonoBehaviour
         wavesManagement();
         itemsManagement();
         ammoGeneration();
+        followPlayer();
     }
 
     void wavesManagement() {
@@ -162,8 +164,13 @@ public class MainGame : MonoBehaviour
         }
 
         if (a != null) {
-            a.transform.SetParent(Ammunition.transform, false);
+            a.transform.SetParent(Ammunitions.transform, false);
             a.transform.position = new Vector3(0, 0, 0);
         }
+    }
+
+    void followPlayer() {
+        Vector2 posPlayer = player.transform.position;
+        camera.transform.position = new Vector3(posPlayer.x, posPlayer.y, camera.transform.position.z);
     }
 }
