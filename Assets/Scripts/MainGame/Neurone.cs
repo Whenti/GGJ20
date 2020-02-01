@@ -20,8 +20,8 @@ public class Neurone : MonoBehaviour
     bool can_give_electric;
 
     float timer_electricity;
-    float duration_electricity = 0.1f;
-    float limite_give_electricity = 2.0f;
+    float duration_electricity = 0.5f;
+    float limite_give_electricity = 4.0f;
 
 
 
@@ -83,12 +83,12 @@ public class Neurone : MonoBehaviour
         foreach (Transform t in myelines.transform) {
 
             if (t.tag == "myeline") {
-                if (t.gameObject != gameObject && !t.GetComponent<Myeline>().isActive() && (t.position - transform.position).magnitude <= limite_give_electricity) {
+                if (t.gameObject != gameObject && t.GetComponent<Myeline>().isActive() && (t.position - transform.position).magnitude <= limite_give_electricity) {
                     t.GetComponent<Myeline>().receiveElectricity();
                 }
             } else if (t.tag == "neurone") {
-                if (t.gameObject != gameObject && !t.GetComponent<Neurone>().isActive() && (t.position - transform.position).magnitude <= limite_give_electricity) {
-                    t.GetComponent<Myeline>().receiveElectricity();
+                if (t.gameObject != gameObject && t.GetComponent<Neurone>().isActive() && (t.position - transform.position).magnitude <= limite_give_electricity) {
+                    t.GetComponent<Neurone>().receiveElectricity();
                 }
             }
         }

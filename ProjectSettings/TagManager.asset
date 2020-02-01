@@ -8,6 +8,7 @@ TagManager:
   - myeline
   - mega_ammo
   - obstacle
+  - neurone
   layers:
   - Default
   - TransparentFX
