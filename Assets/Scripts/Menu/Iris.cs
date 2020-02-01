@@ -51,7 +51,9 @@ public class Iris : MonoBehaviour
         Vector2 eye_to_mouse = new Vector2(target_pos.x - eye_pos.x, target_pos.y - eye_pos.y);
         float R = eye_size.x / 2.0f - iris_size.x;
         float l = 0.5f;
-        float lambda = R - R * Mathf.Exp(-l * eye_to_mouse.magnitude);
+        if (follow_state == FollowState.Player)
+            l = 10.0f;
+        float lambda = R - R * Mathf.Exp(-l * eye_to_mouse.magnitude/(this.transform.lossyScale.x));
         eye_to_mouse.Normalize();
         computed_pos = new Vector3(eye_pos.x + eye_to_mouse.x * lambda, eye_pos.y + eye_to_mouse.y * lambda, eye_pos.z-0.1f);
         this.transform.position = computed_pos;

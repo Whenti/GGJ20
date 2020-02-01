@@ -19,7 +19,9 @@ public class MenuLogic : MonoBehaviour
     Iris iris_left;
     [SerializeField]
     Iris iris_right;
-    
+    [SerializeField]
+    CameraLogic camera;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +32,7 @@ public class MenuLogic : MonoBehaviour
 
     void ButtonPlayClicked()
     {
-        startGame();
+        startGame(); 
     }
 
     void startGame()
@@ -38,6 +40,7 @@ public class MenuLogic : MonoBehaviour
         iris_left.quitMenu();
         iris_right.quitMenu();
         canvas_menu.enabled = false;
+        camera.trigger();
     }
 
     void endGame()
