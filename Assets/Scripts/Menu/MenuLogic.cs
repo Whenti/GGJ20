@@ -104,6 +104,8 @@ public class MenuLogic : MonoBehaviour
             sure_text_left.SetActive(false);
             sure_text_right.SetActive(false);
             play_text.SetActive(false);
+
+            GameObject.Find("MainGame").GetComponent<MainGame>().play();
         }
     }
 

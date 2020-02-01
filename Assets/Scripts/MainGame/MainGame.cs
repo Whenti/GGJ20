@@ -12,7 +12,18 @@ public class MainGame : MonoBehaviour
     [SerializeField] GameObject Myelines;
     [SerializeField] MenuLogic menu_logic;
 
-   
+
+
+    //--------------------------------------------------------------------------------
+    //------------------------  VICTORY AND GAME OVER---------------------------------
+    //--------------------------------------------------------------------------------
+
+    public bool on_game { get; private set; }
+
+    double life;
+    double life_display;
+    double life_max = 100;
+
 
     //--------------------------------------------------------------------------------
     //------------------------  WAVE GENERATION     ----------------------------------
@@ -55,11 +66,16 @@ public class MainGame : MonoBehaviour
     }
 
     public void Initialize() {
+        on_game = false;
         timer_wave = 0;
         duration_wave = 10.0f;
         current_wave = 0;
 
+        life = life_max;
+        life_display = life;
+
         player.Initialize();
+
 
         foreach (Transform t in Myelines.transform) {
             t.GetComponent<Myeline>().Initialize();
@@ -73,11 +89,21 @@ public class MainGame : MonoBehaviour
         {
             menu_logic.switchView();
         }
+        if (on_game) {
+            wavesManagement();
+            itemsManagement();
+            ammoGeneration();
+            followPlayer();
+            healthManagement();
+        }
 
-        wavesManagement();
-        itemsManagement();
-        ammoGeneration();
-        followPlayer();
+        if (Input.GetKeyDown(KeyCode.T)) {
+            play();
+        }
+    }
+
+    public void play() {
+        on_game = true;
     }
 
     void wavesManagement() {
@@ -174,8 +200,49 @@ public class MainGame : MonoBehaviour
         }
     }
 
+
     void followPlayer() {
         Vector2 posPlayer = player.transform.position;
         camera.transform.position = new Vector3(posPlayer.x, posPlayer.y, camera.transform.position.z);
+    }
+
+    public void addHealth(int i) {
+        life += i;
+
+        if (life >= life_max) life = life_max;
+    }
+
+    void healthManagement() {
+        int num_sain =0;
+        int num_total = 0;
+        foreach (Transform t in Myelines.transform) {
+            num_total++;
+            if (!t.GetComponent<Myeline>().isDestructed()) {
+                num_sain++;
+            }
+        }
+
+        //suivant le pourcentage de myeline absente, la santé descend plus vite
+
+        life -= Mathf.Pow( 1-(float)num_sain/(float)num_total, 3);
+
+        float speed_life_display = 1.0f;
+        if (life < life_display - speed_life_display) {
+            life_display -= speed_life_display;
+        } else if (life > life_display + speed_life_display) {
+            life_display += speed_life_display;
+        } else {
+            life_display = life;
+        }
+
+
+        if (life <= 0) {
+            life = 0;
+            gameOver();
+        }
+    }
+
+    public void gameOver() {
+        //afficher canvas game over
     }
 }

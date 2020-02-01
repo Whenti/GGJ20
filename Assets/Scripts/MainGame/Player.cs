@@ -64,10 +64,12 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        inputsManagement();
-        movementManagement();
-        aimManagement();
-        blastManagement();
+        if (mainGame.on_game) {
+            inputsManagement();
+            movementManagement();
+            aimManagement();
+            blastManagement();
+        }
         animationManagement();
     }
 

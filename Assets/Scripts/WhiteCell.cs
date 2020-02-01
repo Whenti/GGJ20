@@ -47,7 +47,7 @@ public class WhiteCell : MonoBehaviour {
             this.speed = this.speed.Rotate(180.0f);
             this.GetComponent<Rigidbody2D>().velocity = this.speed;
         }
-        if (collision.gameObject.tag == "myeline")
+        if (collision.gameObject.tag == "myeline" && is_agressive)
         {
             collision.GetComponent<Myeline>().destroy();
         }
