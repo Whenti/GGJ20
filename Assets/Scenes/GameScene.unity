@@ -2084,6 +2084,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button_resume: {fileID: 932422591}
   button_quit: {fileID: 931260146}
+  button_retry: {fileID: 1965410296}
+  game_over: {fileID: 491564163}
   main_game: {fileID: 1421690943}
   menu_logic: {fileID: 1271568195}
 --- !u!114 &283096452 stripped
@@ -3996,7 +3998,7 @@ GameObject:
   - component: {fileID: 491564166}
   - component: {fileID: 491564165}
   m_Layer: 5
-  m_Name: Image
+  m_Name: game_over
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -19,7 +19,7 @@ public class MainGame : MonoBehaviour
     //------------------------  VICTORY AND GAME OVER---------------------------------
     //--------------------------------------------------------------------------------
     
-    public enum GameState { Game, Pause, Injection, NotPlaying, WaitingCamera};
+    public enum GameState { Game, Pause, Injection, NotPlaying, WaitingCamera, GameOver};
     public GameState game_state;
 
     double life;
@@ -142,7 +142,7 @@ public class MainGame : MonoBehaviour
         {
             if (game_state == GameState.Game || game_state == GameState.Injection)
             {
-                pause_canvas.Activate();
+                pause_canvas.Activate(true);
                 game_state = GameState.Pause;
             }
             else if(game_state == GameState.Pause)
@@ -154,8 +154,10 @@ public class MainGame : MonoBehaviour
             play();
         }
         if (Input.GetKeyDown(KeyCode.N)) {
-            syringe.Prepare();
-            this.game_state = GameState.Injection;
+            start_syringe();
+        }
+        if (Input.GetKeyDown(KeyCode.B)) {
+            gameOver();
         }
     }
 
@@ -305,8 +307,16 @@ public class MainGame : MonoBehaviour
         }
     }
 
+    public void start_syringe()
+    {
+        syringe.Prepare();
+        this.game_state = GameState.Injection;
+    }
+
     public void gameOver() {
         //afficher canvas game over
+        pause_canvas.Activate(false);
+        this.game_state = GameState.GameOver;
     }
 
     public void clean() {
