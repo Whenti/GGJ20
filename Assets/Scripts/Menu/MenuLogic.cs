@@ -22,8 +22,6 @@ public class MenuLogic : MonoBehaviour
     [SerializeField]
     Iris iris_right;
     [SerializeField]
-    CameraLogic my_camera;
-    [SerializeField]
     GameObject closed_eye_left;
     [SerializeField]
     GameObject closed_eye_right;
@@ -73,6 +71,7 @@ public class MenuLogic : MonoBehaviour
             play_text.SetActive(true);
             left_paupiere.gameObject.SetActive(false);
             right_paupiere.gameObject.SetActive(false);
+            credits_text.gameObject.SetActive(true);
         }
         else if(menu == MenuState.ClosedLeft)
         {
@@ -92,13 +91,16 @@ public class MenuLogic : MonoBehaviour
         }
         else if(menu == MenuState.Quitting)
         {
+            iris_left.enterMenu();
+            iris_right.enterMenu();
+            canvas_menu.enabled = true;
+            setState(MenuState.Normal);
         }
         else if(menu == MenuState.Playing)
         {
             iris_left.quitMenu();
             iris_right.quitMenu();
             canvas_menu.enabled = false;
-            my_camera.trigger();
             credits_text.SetActive(false);
             quit_text.SetActive(false);
             sure_text_left.SetActive(false);
@@ -114,11 +116,9 @@ public class MenuLogic : MonoBehaviour
         setState(MenuState.Playing);
     }
 
-    void endGame()
+    public void quitGame()
     {
-        iris_left.enterMenu();
-        iris_right.enterMenu();
-        canvas_menu.enabled = true;
+        setState(MenuState.Quitting);
     }
     
     void ButtonCreditClicked()

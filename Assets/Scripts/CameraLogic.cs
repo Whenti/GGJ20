@@ -32,7 +32,7 @@ public class CameraLogic : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void update_camera()
     {
         if (this.camera_state == CameraState.Game)
         {
@@ -73,6 +73,11 @@ public class CameraLogic : MonoBehaviour
     public float getHeight()
     {
         return 2f * this.GetComponent<Camera>().orthographicSize * this.GetComponent<Camera>().aspect;
+    }
+
+    public void setState(CameraState state)
+    {
+        this.camera_state = state;
     }
 
     public void trigger()

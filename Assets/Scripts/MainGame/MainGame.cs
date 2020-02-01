@@ -9,15 +9,16 @@ public class MainGame : MonoBehaviour
     [SerializeField] Player player;
 
     [SerializeField] GameObject Myelines;
-    [SerializeField] MenuLogic menu_logic;
-
+    [SerializeField] PauseLogic pause_canvas; 
+    [SerializeField]
+    CameraLogic my_camera;
 
 
     //--------------------------------------------------------------------------------
     //------------------------  VICTORY AND GAME OVER---------------------------------
     //--------------------------------------------------------------------------------
     
-    public enum GameState { Game, Pause, Injection, Quitting };
+    public enum GameState { Game, Pause, Injection, NotPlaying, WaitingCamera};
     public GameState game_state;
 
     double life;
@@ -71,7 +72,7 @@ public class MainGame : MonoBehaviour
     }
 
     public void Initialize() {
-        game_state = GameState.Pause;
+        game_state = GameState.NotPlaying;
         timer_wave = 0;
         duration_wave = 10.0f;
         current_wave = 0;
@@ -92,6 +93,16 @@ public class MainGame : MonoBehaviour
     {
         switch (game_state)
         {
+            case GameState.WaitingCamera:
+                if (my_camera.camera_state == CameraLogic.CameraState.Game)
+                {
+                    game_state = GameState.Game;
+                }
+                else if (my_camera.camera_state == CameraLogic.CameraState.Overall)
+                {
+                    game_state = GameState.NotPlaying;
+                }
+                break;
             case GameState.Game:
                 wavesManagement();
                 itemsManagement();
@@ -104,11 +115,32 @@ public class MainGame : MonoBehaviour
                     syringe.Initialize();
                     game_state = GameState.Game;
                 }
+                else
+                {
+                    Debug.Log("injection");
+                    syringe.update_injection();
+                }
                 break;
             case GameState.Pause:
                 break;
-            case GameState.Quitting:
+            case GameState.NotPlaying:
                 break;
+        }
+        
+        if(game_state != GameState.Pause)
+            my_camera.update_camera();
+
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            if (game_state == GameState.Game || game_state == GameState.Injection)
+            {
+                pause_canvas.Activate();
+                game_state = GameState.Pause;
+            }
+            else if(game_state == GameState.Pause)
+            {
+                pause_canvas.ButtonResumeClicked();
+            }
         }
         if (Input.GetKeyDown(KeyCode.T)) {
             play();
@@ -120,7 +152,15 @@ public class MainGame : MonoBehaviour
     }
 
     public void play() {
-        game_state = GameState.Game;
+        my_camera.setState(CameraLogic.CameraState.ToGame);
+        game_state = GameState.WaitingCamera;
+    }
+
+    public void quit()
+    {
+        my_camera.setState(CameraLogic.CameraState.ToOverall);
+        game_state = GameState.WaitingCamera;
+        syringe.Initialize();
     }
 
     void wavesManagement() {

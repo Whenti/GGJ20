@@ -36,7 +36,7 @@ public class Syringe : MonoBehaviour
         MAGNITUDE = my_camera.getHeight() / 3.0f;
         TIME_TO_NECK = 50;
         TIME_ON_NECK = 50;
-        handle_initial_pos = handle.gameObject.transform.localPosition;
+        handle_initial_pos = handle.transform.localPosition;
         left_iris_scale = left_iris.transform.localScale;
         right_iris_scale = right_iris.transform.localScale;
         this.Initialize();
@@ -45,10 +45,11 @@ public class Syringe : MonoBehaviour
     public void Initialize()
     {
         timer = 0;
-        handle.transform.position = handle_initial_pos;
         syringe_mode = SyringeMode.None;
         left_iris.transform.localScale = left_iris_scale;
         right_iris.transform.localScale = right_iris_scale;
+        this.transform.position = outside_pos;
+        handle.transform.position = handle_initial_pos;
     }
 
     public void Prepare()
@@ -58,8 +59,9 @@ public class Syringe : MonoBehaviour
     }
         
     // Update is called once per frame
-    void Update()
+    public void update_injection()
     {
+        Debug.Log(syringe_mode);
         if (syringe_mode == SyringeMode.None || syringe_mode == SyringeMode.Done)
             return;
         if (syringe_mode == SyringeMode.Waiting)
