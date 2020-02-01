@@ -150,32 +150,27 @@ public class Player : MonoBehaviour
 
     void inputsManagement() {
         //KEY DOWN
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
             left = true;
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            right = true;
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            down = true;
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            up = true;
-        }
-        //KEY UP
-        if (Input.GetKeyUp(KeyCode.LeftArrow)) {
+        } else {
             left = false;
         }
-        if (Input.GetKeyUp(KeyCode.RightArrow)) {
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
+            right = true;
+        } else {
             right = false;
         }
-        if (Input.GetKeyUp(KeyCode.DownArrow)) {
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
+            down = true;
+        } else {
             down = false;
         }
-        if (Input.GetKeyUp(KeyCode.UpArrow)) {
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
+            up = true;
+        } else {
             up = false;
         }
-
+            
         if (Input.GetMouseButtonDown(0)) {
             hold_blast = true;
         }

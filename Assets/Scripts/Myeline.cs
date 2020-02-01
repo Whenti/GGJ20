@@ -15,9 +15,12 @@ public class Myeline : MonoBehaviour
     public enum State { active, electric, destructed, invisible};
     State state;
 
+    float timer_invisible;//this timer represents the fact that if the myeline is "destructed" more than a certain amount of time, then it becomes invisible
+    float duration_invisible=5.0f;
+
 
     //--------------------------------------------------------------------------------
-    //------------------------  ELECTRICITY           ----------------------------------
+    //------------------------  ELECTRICITY           --------------------------------
     //--------------------------------------------------------------------------------
     
     bool can_give_electric;
@@ -35,20 +38,23 @@ public class Myeline : MonoBehaviour
     }
 
     public void Initialize() {
-        state = State.active;
+        state = State.destructed;
         can_give_electric = true;
         timer_electricity = 0;
+        timer_invisible = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         electricityManagement();
+        invisibleManagement();
     }
 
     public void repair() {
         if (isDestructed()) {
             state = State.active;
+            timer_invisible = 0;
         } else {
             //cannot repair, need a mega blast
         }
@@ -57,6 +63,7 @@ public class Myeline : MonoBehaviour
     public void mega_repair() {
         if (isDestructed() || isInvisible()) {
             state = State.active;
+            timer_invisible = 0;
         }
     }
 
@@ -101,6 +108,16 @@ public class Myeline : MonoBehaviour
         foreach (Transform t in myelines.transform) {
             if ( t.gameObject != gameObject && !t.GetComponent<Myeline>().isElectric() && (t.position - transform.position).magnitude <= limite_give_electricity) {
                 t.GetComponent<Myeline>().receiveElectricity();
+            }
+        }
+    }
+
+    void invisibleManagement() {
+        if (isDestructed()) {
+            timer_invisible += Time.deltaTime;
+
+            if (timer_invisible >= duration_invisible) {
+                state = State.invisible;
             }
         }
     }

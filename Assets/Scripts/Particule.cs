@@ -11,7 +11,7 @@ public class Particule : MonoBehaviour
     [SerializeField] float ammo_scale;
 
     float timer;
-    float duration=1.0f;
+    float duration=0.4f;
 
     Vector3 direction;
     float speed;
@@ -24,7 +24,7 @@ public class Particule : MonoBehaviour
         float alpha = Random.Range(0.0f, 2 * Mathf.PI);
         direction = new Vector2(Mathf.Cos(alpha), Mathf.Sin(alpha));
 
-        speed = 1.0f;
+        speed = 0.5f;
     }
 
     // Update is called once per frame
@@ -46,7 +46,7 @@ public class Particule : MonoBehaviour
     }
 
     void movementManagement() {
-        speed = speed * 0.94f;
-        transform.position = direction.normalized * speed;
+        speed = speed * 0.8f;
+        transform.position += direction.normalized * speed;
     }
 }
