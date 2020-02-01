@@ -106,7 +106,7 @@ public class Myeline : MonoBehaviour
 
     public void giveElectricity() {
         foreach (Transform t in myelines.transform) {
-            if ( t.gameObject != gameObject && !t.GetComponent<Myeline>().isElectric() && (t.position - transform.position).magnitude <= limite_give_electricity) {
+            if ( t.gameObject != gameObject && !t.GetComponent<Myeline>().isActive() && (t.position - transform.position).magnitude <= limite_give_electricity) {
                 t.GetComponent<Myeline>().receiveElectricity();
             }
         }
@@ -137,6 +137,10 @@ public class Myeline : MonoBehaviour
             
             
         }
+    }
+
+    public void destroy() {
+        
     }
 
     public bool isActive() { return state == State.active; }
