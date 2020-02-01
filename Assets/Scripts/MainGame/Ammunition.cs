@@ -74,12 +74,14 @@ public class Ammunition : MonoBehaviour
 
     public void destroy() {
 
-        for (int i = 0; i < 10; ++i) {
-            //create particule
+        if (shot) {
+            for (int i = 0; i < 10; ++i) {
+                //create particule
 
-            Particule p = Particule.Instantiate(particulePrefab);
-            p.transform.position = transform.position;
+                Particule p = Particule.Instantiate(particulePrefab);
+                p.transform.position = transform.position;
 
+            }
         }
 
         Destroy(gameObject);

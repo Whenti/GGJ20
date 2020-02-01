@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     [SerializeField] Ammunition ammoPrefab;
     [SerializeField] Ammunition megaAmmoPrefab;
 
-    List<string> ammo;
+    public List<string> ammo;
     int ammo_max;
 
     Vector3 aim_direction;
@@ -183,11 +183,12 @@ public class Player : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.gameObject.tag == "mega_ammo" && !collision.GetComponent<Ammunition>().isShot()) {
+        Debug.Log(collision.tag);
+        if (ammo.Count<ammo_max && collision.gameObject.tag == "mega_ammo" && !collision.GetComponent<Ammunition>().isShot()) {
             collision.GetComponent<Ammunition>().destroy();
             addAmmo("mega_ammo");
         }
-        if (collision.gameObject.tag == "ammo" && !collision.GetComponent<Ammunition>().isShot()) {
+        if (ammo.Count < ammo_max && collision.gameObject.tag == "ammo" && !collision.GetComponent<Ammunition>().isShot()) {
             collision.GetComponent<Ammunition>().destroy();
             addAmmo("ammo");
         }
