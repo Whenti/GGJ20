@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+    MainGame mainGame;
+
     //--------------------------------------------------------------------------------
     //------------------------  ANIMATIONS          ----------------------------------
     //--------------------------------------------------------------------------------
@@ -51,6 +53,7 @@ public class Player : MonoBehaviour {
     // Start is called before the first frame update
     void Start()
     {
+        mainGame = GameObject.Find("MainGame").GetComponent<MainGame>();
 
         anim_idle = new Animation2D("Idle", sprites_idle, 2.0f, true);
         anim_shoot = new Animation2D("Shoot", sprites_shoot, 0.14f, false);
@@ -74,7 +77,7 @@ public class Player : MonoBehaviour {
         right = false;
         left = false;
 
-        ammo_max = 50;
+        ammo_max = 9;
         ammo = new List<string>();
         ammo.Clear();
         timer_hold = 0;
@@ -136,6 +139,7 @@ public class Player : MonoBehaviour {
                 //mega ammo
 
                 Ammunition a = Ammunition.Instantiate(megaAmmoPrefab);
+                a.transform.SetParent(mainGame.Ammunitions.transform, false);
                 a.transform.position = transform.position+(aim_direction).normalized*distance_aim;
                 a.setDirection(aim_direction);
                 a.setShot(true);
@@ -143,6 +147,7 @@ public class Player : MonoBehaviour {
                 //regular ammo
 
                 Ammunition a = Ammunition.Instantiate(ammoPrefab);
+                a.transform.SetParent(mainGame.Ammunitions.transform, false);
                 a.transform.position = transform.position + (aim_direction).normalized * distance_aim;
                 a.setDirection(aim_direction);
                 a.setShot(true);
@@ -217,7 +222,6 @@ public class Player : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        Debug.Log(collision.tag);
         if (ammo.Count<ammo_max && collision.gameObject.tag == "mega_ammo" && !collision.GetComponent<Ammunition>().isShot()) {
             collision.GetComponent<Ammunition>().destroy();
             addAmmo("mega_ammo");

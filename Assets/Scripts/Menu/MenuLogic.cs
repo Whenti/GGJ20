@@ -62,7 +62,6 @@ public class MenuLogic : MonoBehaviour
 
     void setState(MenuState menu)
     {
-        Debug.Log(menu);
         menu_state = menu;
         if(menu == MenuState.Normal)
         {

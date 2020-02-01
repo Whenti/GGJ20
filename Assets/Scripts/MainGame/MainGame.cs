@@ -31,7 +31,8 @@ public class MainGame : MonoBehaviour
     //------------------------  AMMO GENERATION     ----------------------------------
     //--------------------------------------------------------------------------------
 
-    [SerializeField] GameObject Ammunitions;
+    public GameObject Ammunitions;
+    public GameObject Particules;
 
     [SerializeField] Ammunition ammoPrefab;
     [SerializeField] Ammunition megaAmmoPrefab;
@@ -128,8 +129,6 @@ public class MainGame : MonoBehaviour
 
         for (int i = 0; i < player.ammo.Count; ++i) {
 
-            Debug.Log(i + " : " + player.ammo[i]);
-
             if (player.ammo[i] == "ammo") {
                 items[i].sprite = sprite_ammo;
                 items[i].gameObject.SetActive(true);
@@ -147,7 +146,7 @@ public class MainGame : MonoBehaviour
         if (timer_ammo >= duration_ammo) {
             timer_ammo -= duration_ammo;
 
-            if (Random.Range(0, 1) == 0) {
+            if (Random.Range(0, 2) == 0) {
                 createAmmo("ammo");
             } else {
                 createAmmo("mega_ammo");

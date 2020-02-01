@@ -5,6 +5,7 @@ using UnityEngine;
 public class Ammunition : MonoBehaviour
 {
 
+    MainGame mainGame;
     [SerializeField] Particule particulePrefab;
 
     bool shot=false;
@@ -20,6 +21,7 @@ public class Ammunition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mainGame = GameObject.Find("MainGame").GetComponent<MainGame>();
         timer = 0;
         seed = Random.value * 1000;
     }
@@ -79,6 +81,7 @@ public class Ammunition : MonoBehaviour
                 //create particule
 
                 Particule p = Particule.Instantiate(particulePrefab);
+                p.transform.SetParent(mainGame.Particules.transform, false);
                 p.transform.position = transform.position;
 
             }

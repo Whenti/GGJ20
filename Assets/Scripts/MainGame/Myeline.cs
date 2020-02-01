@@ -15,6 +15,10 @@ public class Myeline : MonoBehaviour
     public enum State { active, electric, destructed, invisible};
     State state;
 
+    [SerializeField] Sprite sprite_active;
+    [SerializeField] Sprite sprite_electric;
+    [SerializeField] Sprite sprite_destructed;
+
     float timer_invisible;//this timer represents the fact that if the myeline is "destructed" more than a certain amount of time, then it becomes invisible
     float duration_invisible=5.0f;
 
@@ -48,7 +52,7 @@ public class Myeline : MonoBehaviour
     void Update()
     {
         electricityManagement();
-        invisibleManagement();
+        //invisibleManagement();
     }
 
     public void repair() {
@@ -82,16 +86,15 @@ public class Myeline : MonoBehaviour
                 timer_electricity = 0;
             }
 
-            sr.color = Color.red;
+            sr.sprite = sprite_electric;
             sr.gameObject.SetActive(true);
         } else if (state == State.destructed) {
-            sr.color = Color.red;
+            sr.sprite = sprite_destructed;
             sr.gameObject.SetActive(true);
         } else if (state == State.invisible) {
-            sr.color = Color.grey;
             sr.gameObject.SetActive(false);
         } else if (state == State.active) {
-            sr.color = Color.white;
+            sr.sprite = sprite_active;
             sr.gameObject.SetActive(true);
         }
     }
