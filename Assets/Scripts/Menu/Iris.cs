@@ -49,8 +49,8 @@ public class Iris : MonoBehaviour
         else if (this.follow_state == FollowState.Player)
             target_pos = Player.transform.position;
         Vector2 eye_to_mouse = new Vector2(target_pos.x - eye_pos.x, target_pos.y - eye_pos.y);
-        float R = eye_size.x / 2.0f - iris_size.x;
-        float l = 0.5f;
+        float R = eye_size.x / 2.0f - iris_size.x/2.0f;
+        float l = 0.05f;
         if (follow_state == FollowState.Player)
             l = 10.0f;
         float lambda = R - R * Mathf.Exp(-l * eye_to_mouse.magnitude/(this.transform.lossyScale.x));

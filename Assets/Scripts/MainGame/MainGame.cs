@@ -162,7 +162,7 @@ public class MainGame : MonoBehaviour
         }
 
         if (a != null) {
-            a.transform.SetParent(Ammunition.transform, false);
+            a.transform.SetParent(Ammunitions.transform, false);
             a.transform.position = new Vector3(0, 0, 0);
         }
     }

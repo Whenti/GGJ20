@@ -28,6 +28,19 @@ public class MenuLogic : MonoBehaviour
     [SerializeField]
     GameObject closed_eye_right;
 
+    [SerializeField]
+    GameObject quit_text;
+    [SerializeField]
+    GameObject sure_text_right;
+    [SerializeField]
+    GameObject sure_text_left;
+    [SerializeField]
+    GameObject credits_text;
+    [SerializeField]
+    GameObject left_paupiere;
+    [SerializeField]
+    GameObject right_paupiere;
+
     private enum MenuState { ClosedLeft, ClosedRight, Normal, Quitting };
     private MenuState menu_state;
 
@@ -53,16 +66,30 @@ public class MenuLogic : MonoBehaviour
         menu_state = menu;
         if(menu == MenuState.Normal)
         {
+            quit_text.gameObject.SetActive(true);
+            sure_text_right.gameObject.SetActive(false);
+            sure_text_left.gameObject.SetActive(false);
+            left_paupiere.gameObject.SetActive(false);
+            right_paupiere.gameObject.SetActive(false);
         }
         else if(menu == MenuState.ClosedLeft)
         {
+            quit_text.gameObject.SetActive(false);
+            sure_text_right.gameObject.SetActive(true);
+            sure_text_left.gameObject.SetActive(false);
+            left_paupiere.gameObject.SetActive(true);
+            right_paupiere.gameObject.SetActive(false);
         }
         else if(menu == MenuState.ClosedRight)
         {
+            quit_text.gameObject.SetActive(false);
+            sure_text_right.gameObject.SetActive(false);
+            sure_text_left.gameObject.SetActive(true);
+            left_paupiere.gameObject.SetActive(false);
+            right_paupiere.gameObject.SetActive(true);
         }
         else if(menu == MenuState.Quitting)
         {
-            this.canvas_menu.enabled = false;
         }
     }
 
