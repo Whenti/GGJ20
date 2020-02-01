@@ -21,7 +21,7 @@ public class Syringe : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timer = 1;
+        timer = -1;
         neck_pos = neck.gameObject.transform.position;
         outside_pos = this.gameObject.transform.position;
         MAGNITUDE = my_camera.getHeight() / 3.0f;
