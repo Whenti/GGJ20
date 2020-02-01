@@ -30,7 +30,7 @@ public class Myeline : MonoBehaviour
     bool can_give_electric;
 
     float timer_electricity;
-    float duration_electricity = 0.5f;
+    float duration_electricity = 0.2f;
     float limite_give_electricity = 2.0f;
     float limite_give_electricity_neurone = 4.0f;
 
@@ -140,13 +140,13 @@ public class Myeline : MonoBehaviour
             repair();
 
 
-        }else if (collision.gameObject.tag == "mega_ammo" && collision.GetComponent<Ammunition>().isShot()) {
-            collision.GetComponent<Ammunition>().destroy();
+        }/*else if (collision.gameObject.tag == "mega_ammo" && collision.GetComponent<Ammunition>().isShot()) {
+            //collision.GetComponent<Ammunition>().destroy();
 
             //mega_repair();
             
             
-        }
+        }*/
     }
 
     public void destroy() {

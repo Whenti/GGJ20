@@ -20,7 +20,7 @@ public class Neurone : MonoBehaviour
     bool can_give_electric;
 
     float timer_electricity;
-    float duration_electricity = 0.5f;
+    float duration_electricity = 0.2f;
     float limite_give_electricity = 4.0f;
 
 

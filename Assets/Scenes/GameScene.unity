@@ -694,6 +694,7 @@ MonoBehaviour:
   handle: {fileID: 2008988131}
   left_iris: {fileID: 524687429}
   right_iris: {fileID: 954926527}
+  liquid: {fileID: 0}
   syringe_mode: 0
 --- !u!212 &51605123
 SpriteRenderer:
@@ -7985,6 +7986,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -97.40501
       objectReference: {fileID: 0}
+    - target: {fileID: 4512455566288027597, guid: e56c8a4494ffc2c4da70798adebc9417,
+        type: 3}
+      propertyPath: myelines
+      value: 
+      objectReference: {fileID: 1162301481}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e56c8a4494ffc2c4da70798adebc9417, type: 3}
 --- !u!4 &937140052 stripped
@@ -13366,8 +13372,8 @@ MonoBehaviour:
   - {fileID: 2070329355}
   - {fileID: 1648049106}
   - {fileID: 1837633319}
-  sprite_ammo: {fileID: 21300000, guid: 6c9fd290809c6df41971a248706f438f, type: 3}
-  sprite_mega_ammo: {fileID: 21300000, guid: c89108f72b074434e96fdb9e945ed082, type: 3}
+  sprite_ammo: {fileID: 21300000, guid: 804777a8ed9606748bd56240e966d086, type: 3}
+  sprite_mega_ammo: {fileID: 21300000, guid: 11a2526071b0aae4e8a220cce7d1fa30, type: 3}
   syringe: {fileID: 51605122}
 --- !u!4 &1421690944
 Transform:

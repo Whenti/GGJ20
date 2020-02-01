@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4082731434033324800}
   - component: {fileID: 4082731434033324815}
   - component: {fileID: 4082731434033324802}
-  - component: {fileID: 4082731434033324803}
+  - component: {fileID: 5893679582863954472}
   m_Layer: 0
   m_Name: whity
   m_TagString: Untagged
@@ -94,8 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68d4d6d22c7ff2442b680249d8d873ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprites_idle_neutral: []
-  sprites_idle_agressive: []
 --- !u!50 &4082731434033324802
 Rigidbody2D:
   serializedVersion: 4
@@ -117,8 +115,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &4082731434033324803
-BoxCollider2D:
+--- !u!58 &5893679582863954472
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -127,19 +125,9 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.24, y: 10.24}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0, y: -0.19}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 1.85

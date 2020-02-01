@@ -6,7 +6,7 @@ public class SourceElectricity : MonoBehaviour
 {
 
     float timer;
-    float duration = 2.0f;
+    float duration = 1.0f;
 
     float limite_give_electricity = 5.0f;
 

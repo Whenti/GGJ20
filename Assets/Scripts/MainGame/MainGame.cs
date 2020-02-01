@@ -77,7 +77,7 @@ public class MainGame : MonoBehaviour
     public void Initialize() {
         game_state = GameState.NotPlaying;
         timer_wave = 0;
-        duration_wave = 10.0f;
+        duration_wave = 40.0f;
         current_wave = 0;
 
         life = life_max;
@@ -88,7 +88,11 @@ public class MainGame : MonoBehaviour
 
 
         foreach (Transform t in Myelines.transform) {
-            t.GetComponent<Myeline>().Initialize();
+            if (t.tag == "myeline") {
+                t.GetComponent<Myeline>().Initialize();
+            } else if (t.tag == "neurone") {
+                t.GetComponent<Neurone>().Initialize();
+            }
         }
     }
 
@@ -109,7 +113,6 @@ public class MainGame : MonoBehaviour
                 break;
             case GameState.Game:
                 wavesManagement();
-                itemsManagement();
                 ammoGeneration();
                 healthManagement();
                 break;
@@ -130,8 +133,9 @@ public class MainGame : MonoBehaviour
             case GameState.NotPlaying:
                 break;
         }
-        
-        if(game_state != GameState.Pause)
+        itemsManagement();
+
+        if (game_state != GameState.Pause)
             my_camera.update_camera();
 
         if (Input.GetKeyUp(KeyCode.Escape))
@@ -276,7 +280,7 @@ public class MainGame : MonoBehaviour
         int num_total = 0;
         foreach (Transform t in Myelines.transform) {
             num_total++;
-            if (!t.GetComponent<Myeline>().isDestructed()) {
+            if (t.tag=="myeline" && !t.GetComponent<Myeline>().isDestructed()) {
                 num_sain++;
             }
         }
