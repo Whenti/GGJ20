@@ -70,6 +70,11 @@ public class CameraLogic : MonoBehaviour
         return this.overall_size;
     }
 
+    public float getHeight()
+    {
+        return 2f * this.GetComponent<Camera>().orthographicSize * this.GetComponent<Camera>().aspect;
+    }
+
     public void trigger()
     {
         switch (this.camera_state)
