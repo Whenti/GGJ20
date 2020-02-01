@@ -54,12 +54,6 @@ public class MenuLogic : MonoBehaviour
         setState(MenuState.Normal);
     }
 
-    void enableButton(Button button, bool b)
-    {
-        button.enabled = b;
-        button.gameObject.SetActive(b);
-    }
-
     void setState(MenuState menu)
     {
         menu_state = menu;
