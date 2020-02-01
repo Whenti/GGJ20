@@ -10,14 +10,19 @@ public class CameraLogic : MonoBehaviour
     private int timer;
     private int T_transition;
     private float overall_size;
+    private Vector3 overall_pos;
     private float game_size;
-    
+
+    [SerializeField]
+    Player player;
+
     // Start is called before the first frame update
     void Start()
     {
-        T_transition = 20;
+        T_transition = 80;
         overall_size = this.GetComponent<Camera>().orthographicSize;
-        game_size = 1;
+        overall_pos = this.gameObject.transform.position;
+        game_size = 5f;
     }
 
     private void Initialize()
@@ -56,11 +61,12 @@ public class CameraLogic : MonoBehaviour
         }
         float lambda = (float)this.timer / (float)this.T_transition;
         this.GetComponent<Camera>().orthographicSize = lambda * game_size + (1 - lambda) * overall_size;
+        Vector3 player_pos = player.transform.position;
+        this.gameObject.transform.position = lambda * new Vector3(player_pos.x, player_pos.y, overall_pos.z) + (1 - lambda) * overall_pos;
     }
 
     public void trigger()
     {
-        Debug.Log("coucouuuuu");
         switch (this.camera_state)
         {
             case CameraState.Overall:
