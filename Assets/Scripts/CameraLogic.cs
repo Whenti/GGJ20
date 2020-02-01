@@ -65,6 +65,16 @@ public class CameraLogic : MonoBehaviour
         this.gameObject.transform.position = lambda * new Vector3(player_pos.x, player_pos.y, overall_pos.z) + (1 - lambda) * overall_pos;
     }
 
+    public float getOverallSize()
+    {
+        return this.overall_size;
+    }
+
+    public float getHeight()
+    {
+        return 2f * this.GetComponent<Camera>().orthographicSize * this.GetComponent<Camera>().aspect;
+    }
+
     public void trigger()
     {
         switch (this.camera_state)
