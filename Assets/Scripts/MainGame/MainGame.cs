@@ -48,8 +48,6 @@ public class MainGame : MonoBehaviour
 
     void wavesManagement() {
 
-        Debug.Log(timer_wave + "/" + duration_wave);
-
         if (current_wave < total_waves) {
             //if we are at the final wave, there is no need to use the timer. Only use it when current_wave < total_waves
             timer_wave += Time.deltaTime;
