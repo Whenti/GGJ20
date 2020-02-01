@@ -24,7 +24,6 @@ public class SourceElectricity : MonoBehaviour
         timer += Time.deltaTime;
 
 
-        Debug.Log(myelines.transform.childCount);
 
         if (timer >= duration) {
             timer -= duration;

@@ -76,7 +76,6 @@ public class WhiteCell : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Debug.Log("agres " + is_agressive);
         movementManagement();
         animationsManagement();
     }
@@ -94,7 +93,6 @@ public class WhiteCell : MonoBehaviour {
         }
         if (collision.gameObject.tag == "mega_ammo" && collision.GetComponent<Ammunition>().isShot()) {
             collision.GetComponent<Ammunition>().destroy();
-            Debug.Log("OK");
             neutralize();
         }
         if (collision.gameObject.tag == "ammo" && collision.GetComponent<Ammunition>().isShot()) {
