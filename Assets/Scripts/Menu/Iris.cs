@@ -47,7 +47,7 @@ public class Iris : MonoBehaviour
         if (this.follow_state == FollowState.Mouse)
             target_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         else if (this.follow_state == FollowState.Player)
-            target_pos = new Vector2(0, 0);
+            target_pos = Player.transform.position;
         Vector2 eye_to_mouse = new Vector2(target_pos.x - eye_pos.x, target_pos.y - eye_pos.y);
         float R = eye_size.x / 2.0f - iris_size.x;
         float l = 0.5f;
