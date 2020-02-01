@@ -6,6 +6,18 @@ public class WhiteCell : MonoBehaviour {
 
     SpriteRenderer sr;
 
+
+    //--------------------------------------------------------------------------------
+    //------------------------  ANIMATION            ----------------------------------
+    //--------------------------------------------------------------------------------
+
+    List<Sprite> sprites_idle_neutral;
+    List<Sprite> sprites_idle_agressive;
+
+    Animation2D anim_idle_neutral;
+    Animation2D anim_idle_agressive;
+
+
     //--------------------------------------------------------------------------------
     //------------------------  MOVEMENT            ----------------------------------
     //--------------------------------------------------------------------------------
@@ -24,9 +36,31 @@ public class WhiteCell : MonoBehaviour {
     {
         sr = GetComponent<SpriteRenderer>();
 
+        //load sprites
+        sprites_idle_neutral = new List<Sprite>();
+        sprites_idle_agressive = new List<Sprite>();
+
+        for (int i = 0; i < 50; ++i) {
+            string txt = i + "";
+            if (txt.Length == 1) txt = "0000" + txt;
+            else if (txt.Length == 2) txt = "000" + txt;
+            sprites_idle_neutral.Add(Resources.Load<Sprite>("Sprites/ennemies/lymphoBlanc/lymphoBlanc_" + txt));
+        }
+
+        for (int i = 0; i < 49; ++i) {
+            string txt = i + "";
+            if (txt.Length == 1) txt = "0000" + txt;
+            else if (txt.Length == 2) txt = "000" + txt;
+            sprites_idle_agressive.Add(Resources.Load<Sprite>("Sprites/ennemies/lymphoRouge/lymphoRouge_" + txt ));
+        }
+
+        anim_idle_neutral = new Animation2D("Idle Neutral", sprites_idle_neutral, 1.0f, true);
+        anim_idle_agressive = new Animation2D("Idle Agressive", sprites_idle_agressive, 1.0f, true);
+
 
         speed_norm = 1f;
         angle_accel = 0.0f;
+
         Initialize();
     }
 
@@ -40,6 +74,13 @@ public class WhiteCell : MonoBehaviour {
     }
 
 
+    // Update is called once per frame
+    void Update() {
+        Debug.Log("agres " + is_agressive);
+        movementManagement();
+        animationsManagement();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "obstacle")
@@ -51,21 +92,15 @@ public class WhiteCell : MonoBehaviour {
         {
             collision.GetComponent<Myeline>().destroy();
         }
-        if (collision.gameObject.tag == "mega_ammo") {
+        if (collision.gameObject.tag == "mega_ammo" && collision.GetComponent<Ammunition>().isShot()) {
             collision.GetComponent<Ammunition>().destroy();
+            Debug.Log("OK");
             neutralize();
         }
-        if (collision.gameObject.tag == "ammo") {
+        if (collision.gameObject.tag == "ammo" && collision.GetComponent<Ammunition>().isShot()) {
             collision.GetComponent<Ammunition>().destroy();
             //cannot neutralize, need a mega_ammo
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        movementManagement();
-        spriteManagement();
     }
 
     void movementManagement() {
@@ -79,17 +114,20 @@ public class WhiteCell : MonoBehaviour {
         this.speed = this.speed.Rotate(angle_accel);
         this.GetComponent<Rigidbody2D>().velocity = this.speed;
     }
-
-    void spriteManagement() {
-        if (is_agressive) {
-            sr.color = Color.red;
-        } else {
-            sr.color = Color.white;
-        }
-    }
+    
 
     public void neutralize() {
         is_agressive = false;
+    }
+
+    void animationsManagement() {
+        if (is_agressive) {
+            anim_idle_agressive.evolve(1.0f);
+            sr.sprite = anim_idle_agressive.currentSprite();
+        } else {
+            anim_idle_neutral.evolve(1.0f);
+            sr.sprite = anim_idle_neutral.currentSprite();
+        }
     }
 
 
