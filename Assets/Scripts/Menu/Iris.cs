@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Iris : MonoBehaviour
 {
-    private enum FollowState { Mouse, Player};
+    private enum FollowState { Mouse, None};
     [SerializeField]
     GameObject Eye;
     [SerializeField]
@@ -32,7 +32,9 @@ public class Iris : MonoBehaviour
 
     public void quitMenu()
     {
-        follow_state = FollowState.Player; 
+        follow_state = FollowState.None;
+        this.transform.position = Eye.transform.position;
+        this.transform.position -= new Vector3(0f, 0f, 0.1f);
     }
 
     public void enterMenu()
@@ -43,19 +45,17 @@ public class Iris : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 eye_pos = Eye.transform.position;
         if (this.follow_state == FollowState.Mouse)
+        {
+            Vector3 eye_pos = Eye.transform.position;
             target_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        else if (this.follow_state == FollowState.Player)
-            target_pos = Player.transform.position;
-        Vector2 eye_to_mouse = new Vector2(target_pos.x - eye_pos.x, target_pos.y - eye_pos.y);
-        float R = eye_size.x / 2.0f - iris_size.x/2.0f;
-        float l = 0.05f;
-        if (follow_state == FollowState.Player)
-            l = 10.0f;
-        float lambda = R - R * Mathf.Exp(-l * eye_to_mouse.magnitude/(this.transform.lossyScale.x));
-        eye_to_mouse.Normalize();
-        computed_pos = new Vector3(eye_pos.x + eye_to_mouse.x * lambda, eye_pos.y + eye_to_mouse.y * lambda, eye_pos.z-0.1f);
-        this.transform.position = computed_pos;
+            Vector2 eye_to_mouse = new Vector2(target_pos.x - eye_pos.x, target_pos.y - eye_pos.y);
+            float R = eye_size.x / 2.0f - iris_size.x / 2.0f;
+            float l = 0.05f;
+            float lambda = R - R * Mathf.Exp(-l * eye_to_mouse.magnitude / (this.transform.lossyScale.x));
+            eye_to_mouse.Normalize();
+            computed_pos = new Vector3(eye_pos.x + eye_to_mouse.x * lambda, eye_pos.y + eye_to_mouse.y * lambda, eye_pos.z - 0.1f);
+            this.transform.position = computed_pos;
+        }
     }
 }

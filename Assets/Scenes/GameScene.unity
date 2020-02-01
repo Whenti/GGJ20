@@ -230,7 +230,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51605120}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 49.9, y: -5, z: 0}
+  m_LocalPosition: {x: 49.9, y: -5, z: -3.84}
   m_LocalScale: {x: 3.849423, y: 9.539562, z: 1}
   m_Children:
   - {fileID: 2008988132}
@@ -252,6 +252,7 @@ MonoBehaviour:
   neck: {fileID: 331301994}
   my_camera: {fileID: 845328601}
   handle: {fileID: 2008988131}
+  syringe_mode: 0
 --- !u!212 &51605123
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1304,6 +1305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdfa17808946dc445ae55e54de17d674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera_state: 0
   player: {fileID: 1409499001}
 --- !u!4 &924074064 stripped
 Transform:
@@ -2233,9 +2235,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1409499001}
-  camera: {fileID: 845328599}
   Myelines: {fileID: 1097748454}
   menu_logic: {fileID: 1271568195}
+  game_state: 0
   CellulesBlanches: {fileID: 1412488319}
   celluleBlanchePrefab: {fileID: 4082731434033324815, guid: 46419f0855391624b9062360a61f0edc,
     type: 3}
@@ -2257,6 +2259,7 @@ MonoBehaviour:
   - {fileID: 1837633319}
   sprite_ammo: {fileID: 21300000, guid: 6c9fd290809c6df41971a248706f438f, type: 3}
   sprite_mega_ammo: {fileID: 21300000, guid: c89108f72b074434e96fdb9e945ed082, type: 3}
+  syringe: {fileID: 51605122}
 --- !u!4 &1421690944
 Transform:
   m_ObjectHideFlags: 0
