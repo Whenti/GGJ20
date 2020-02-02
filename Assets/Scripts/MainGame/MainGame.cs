@@ -14,6 +14,7 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     CameraLogic my_camera;
 
+    bool tutorial;
 
     //--------------------------------------------------------------------------------
     //------------------------  VICTORY AND GAME OVER---------------------------------
@@ -86,6 +87,7 @@ public class MainGame : MonoBehaviour
     {
         JaugeVieLargeurMax = JaugeVie.GetComponent<RectTransform>().sizeDelta.x;
         Initialize();
+        tutorial = true;
     }
 
     public void Initialize() {
@@ -179,10 +181,10 @@ public class MainGame : MonoBehaviour
         }
     }
 
-    public void play() {
+    public void play(bool tutorial=false) {
         my_camera.setState(CameraLogic.CameraState.ToGame);
         game_state = GameState.WaitingCamera;
-
+        tutorial = true;
         CanvasUI.gameObject.SetActive(true);
     }
 

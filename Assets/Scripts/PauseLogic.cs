@@ -46,6 +46,7 @@ public class PauseLogic : MonoBehaviour
     {
         this.gameObject.SetActive(false);
         main_game.quit();
+        menu_logic.setTutorialFalse();
         menu_logic.quitGame();
     }
 
