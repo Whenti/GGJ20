@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class Illuminated : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] GameObject illumination;
+    [SerializeField] GameObject sound;
 
     bool is_active;
 
@@ -29,6 +30,7 @@ public class Illuminated : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void OnPointerEnter(PointerEventData eventData)
     {
         illumination.SetActive(true);
+        sound.GetComponent<AudioSource>().Play();
     }
 
     public void OnPointerExit(PointerEventData eventData)

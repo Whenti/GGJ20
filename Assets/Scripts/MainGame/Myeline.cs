@@ -8,6 +8,8 @@ public class Myeline : MonoBehaviour
     [SerializeField] SpriteRenderer sr;
     [SerializeField] GameObject myelines;
     [SerializeField] SpriteRenderer illumination;
+    [SerializeField] AudioClip clip_repair;
+    [SerializeField] AudioClip clip_break;
 
     //--------------------------------------------------------------------------------
     //------------------------  STATE               ----------------------------------
@@ -80,6 +82,8 @@ public class Myeline : MonoBehaviour
         if (isDestructed()) {
             state = State.active;
             timer_invisible = 0;
+            GetComponent<AudioSource>().clip = clip_repair;
+            GetComponent<AudioSource>().Play();
         } else {
             //cannot repair, need a mega blast
         }
@@ -191,6 +195,7 @@ public class Myeline : MonoBehaviour
     }
 
     public void destroy() {
+        this.GetComponent<AudioSource>().clip = clip_break;
         this.GetComponent<AudioSource>().Play();
         state = State.destructed;
     }

@@ -203,6 +203,7 @@ public class MainGame : MonoBehaviour
     }
 
     public void play(bool btutorial=false) {
+        this.GetComponent<AudioSource>().Play();
         my_camera.setState(CameraLogic.CameraState.ToGame);
         game_state = GameState.WaitingCamera;
         tutorial = btutorial;
@@ -216,6 +217,7 @@ public class MainGame : MonoBehaviour
 
     public void quit()
     {
+        this.GetComponent<AudioSource>().Stop();
         my_camera.setState(CameraLogic.CameraState.ToOverall);
         game_state = GameState.WaitingCamera;
         syringe.Initialize();
@@ -418,7 +420,7 @@ public class MainGame : MonoBehaviour
 
     public void youWin()
     {
-        pause_canvas.Activate(false, true);
+        pause_canvas.Activate(false, true, tutorial);
         this.game_state = GameState.GameOver;
     }
 

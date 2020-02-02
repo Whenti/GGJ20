@@ -177,6 +177,7 @@ public class WhiteCell : MonoBehaviour {
 
     public void neutralize() {
         is_agressive = false;
+        GetComponent<AudioSource>().Play();
     }
 
     void animationsManagement() {
