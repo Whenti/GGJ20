@@ -54,12 +54,6 @@ public class MenuLogic : MonoBehaviour
         setState(MenuState.Normal);
     }
 
-    void enableButton(Button button, bool b)
-    {
-        button.enabled = b;
-        button.gameObject.SetActive(b);
-    }
-
     void setState(MenuState menu)
     {
         menu_state = menu;
@@ -131,7 +125,7 @@ public class MenuLogic : MonoBehaviour
         if (menu_state == MenuState.ClosedRight)
             setState(MenuState.Normal);
         else if (menu_state == MenuState.ClosedLeft)
-            setState(MenuState.Quitting);
+            Application.Quit();
         else if (menu_state == MenuState.Normal)
             setState(MenuState.ClosedRight);
     }
@@ -141,7 +135,7 @@ public class MenuLogic : MonoBehaviour
         if (menu_state == MenuState.ClosedLeft)
             setState(MenuState.Normal);
         else if (menu_state == MenuState.ClosedRight)
-            setState(MenuState.Quitting);
+            Application.Quit();
         else if (menu_state == MenuState.Normal)
             setState(MenuState.ClosedLeft);
     }
