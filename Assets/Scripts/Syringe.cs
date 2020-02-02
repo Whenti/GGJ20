@@ -91,6 +91,10 @@ public class Syringe : MonoBehaviour
         }
         else if(timer < TIME_TO_NECK + TIME_ON_NECK)
         {
+            if(timer == TIME_TO_NECK)
+            {
+                GetComponent<AudioSource>().Play();
+            }
             int local_timer = timer - TIME_TO_NECK;
             float lambda = (float)local_timer / (float)this.TIME_ON_NECK;
             this.transform.position = neck_pos;

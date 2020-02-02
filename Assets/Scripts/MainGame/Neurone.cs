@@ -74,6 +74,7 @@ public class Neurone : MonoBehaviour
     public void receiveElectricity() {
         if (isActive()) {
             state = State.electric;
+            this.GetComponent<AudioSource>().Play();
         }
 
 

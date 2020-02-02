@@ -191,6 +191,7 @@ public class Myeline : MonoBehaviour
     }
 
     public void destroy() {
+        this.GetComponent<AudioSource>().Play();
         state = State.destructed;
     }
 

@@ -181,6 +181,7 @@ public class MainGame : MonoBehaviour
             {
                 pause_canvas.Activate(true);
                 game_state = GameState.Pause;
+                player.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
             }
             else if(game_state == GameState.Pause)
             {
@@ -401,8 +402,8 @@ public class MainGame : MonoBehaviour
 
     public void start_syringe()
     {
-        //syringe.Prepare();
-        //this.game_state = GameState.Injection;
+        syringe.Prepare();
+        this.game_state = GameState.Injection;
     }
 
     public void gameOver() {
