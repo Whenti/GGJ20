@@ -23,8 +23,8 @@ public class Player : MonoBehaviour {
     //------------------------  MOVEMENTS           ----------------------------------
     //--------------------------------------------------------------------------------
 
-    float speed_max = 10;
-    float acceleration_max = 100;
+    float speed_max = 500;
+    float acceleration_max = 5000;
 
     Vector3 speed;
     Vector3 acceleration;
@@ -118,7 +118,7 @@ public class Player : MonoBehaviour {
             speed = speed.normalized * speed_max;
         }
 
-        transform.position += speed * Time.deltaTime;
+        GetComponent<Rigidbody2D>().velocity = new Vector2(speed.x, speed.y) * Time.deltaTime;
 
     }
 
@@ -232,5 +232,9 @@ public class Player : MonoBehaviour {
             collision.GetComponent<Ammunition>().destroy();
             addAmmo("ammo");
         }
+    }
+
+    public void clean() {
+        ammo.Clear();
     }
 }

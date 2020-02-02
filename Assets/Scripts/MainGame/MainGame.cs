@@ -77,7 +77,7 @@ public class MainGame : MonoBehaviour
     public void Initialize() {
         game_state = GameState.NotPlaying;
         timer_wave = 0;
-        duration_wave = 40.0f;
+        duration_wave = 4.0f;
         current_wave = 0;
 
         life = life_max;
@@ -314,6 +314,9 @@ public class MainGame : MonoBehaviour
         foreach (Transform t in Ammunitions.transform) {
             Destroy(t.gameObject);
         }
+
+        player.clean();
+
         //white cells
         foreach (Transform t in CellulesBlanches.transform) {
             Destroy(t.gameObject);

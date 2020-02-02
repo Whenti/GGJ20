@@ -12,6 +12,7 @@ public class Myeline : MonoBehaviour
     //------------------------  STATE               ----------------------------------
     //--------------------------------------------------------------------------------
 
+    [SerializeField] bool is_incassable;
     public enum State { active, electric, destructed, invisible};
     State state;
 
@@ -134,19 +135,21 @@ public class Myeline : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) {
 
-        if (collision.gameObject.tag == "ammo" && collision.GetComponent<Ammunition>().isShot()) {
-            collision.GetComponent<Ammunition>().destroy();
+        if (isDestructed()) {
+            if (collision.gameObject.tag == "ammo" && collision.GetComponent<Ammunition>().isShot()) {
+                collision.GetComponent<Ammunition>().destroy();
 
-            repair();
+                repair();
 
 
-        }/*else if (collision.gameObject.tag == "mega_ammo" && collision.GetComponent<Ammunition>().isShot()) {
+            }/*else if (collision.gameObject.tag == "mega_ammo" && collision.GetComponent<Ammunition>().isShot()) {
             //collision.GetComponent<Ammunition>().destroy();
 
             //mega_repair();
             
             
         }*/
+        }
     }
 
     public void destroy() {

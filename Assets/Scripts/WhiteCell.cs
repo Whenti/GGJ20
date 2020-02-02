@@ -31,6 +31,19 @@ public class WhiteCell : MonoBehaviour {
 
     bool is_agressive;
 
+    //--------------------------------------------------------------------------------
+    //------------------------  DESTROY MYELINE     ----------------------------------
+    //--------------------------------------------------------------------------------
+
+    float timer_myeline;
+    float duration_myeline = 2.0f;
+    bool on_myeline;
+    Myeline currentMyeline;
+
+    float timer_inactive;
+    float duration_inactive = 10.0f;//during 10 seconds after destroying a myelone, the white cell cannot destroy other myelines
+    bool is_inactive;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -71,6 +84,13 @@ public class WhiteCell : MonoBehaviour {
         this.speed = this.speed.Rotate(angle);
 
         is_agressive = true;
+
+        timer_myeline = 0;
+        on_myeline = false;
+        currentMyeline = null;
+
+        timer_inactive = 0;
+        is_inactive = false;
     }
 
 
@@ -78,6 +98,7 @@ public class WhiteCell : MonoBehaviour {
     void Update() {
         movementManagement();
         animationsManagement();
+        myelineManagement();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -87,9 +108,9 @@ public class WhiteCell : MonoBehaviour {
             this.speed = this.speed.Rotate(180.0f);
             this.GetComponent<Rigidbody2D>().velocity = this.speed;
         }
-        if (collision.gameObject.tag == "myeline" && is_agressive)
+        if (!is_inactive && collision.gameObject.tag == "myeline" && is_agressive)
         {
-            collision.GetComponent<Myeline>().destroy();
+            stayOnMyeline(collision.gameObject);
         }
         if (collision.gameObject.tag == "mega_ammo" && collision.GetComponent<Ammunition>().isShot()) {
             collision.GetComponent<Ammunition>().destroy();
@@ -101,16 +122,51 @@ public class WhiteCell : MonoBehaviour {
         }
     }
 
+    void stayOnMyeline(GameObject o) {
+        on_myeline = true;
+        timer_myeline = 0;
+        currentMyeline = o.GetComponent<Myeline>();
+
+        is_inactive = true;
+        timer_inactive = 0;
+    }
+
+    void myelineManagement() {
+        if (on_myeline && currentMyeline!=null) {
+            timer_myeline += Time.deltaTime;
+
+            if (timer_myeline >= duration_myeline) {
+                currentMyeline.destroy();
+
+                on_myeline = false;
+                currentMyeline = null;
+            }
+        }
+
+        if (is_inactive) {
+            timer_inactive += Time.deltaTime;
+
+            if (timer_inactive >= duration_inactive) {
+                is_inactive = false;
+            }
+        }
+    }
+
     void movementManagement() {
 
         //update `angle_accel` with `angle_var
-        int angle_force = 3;
-        float lambda = 0.5f;
-        float angle_delta = RandomGaussianGenerator.GenerateNormalRandom(0, 10.0f, -angle_force, angle_force);
+        if (on_myeline) {
 
-        angle_accel = lambda * angle_accel + (1 - lambda) * angle_delta;
-        this.speed = this.speed.Rotate(angle_accel);
-        this.GetComponent<Rigidbody2D>().velocity = this.speed;
+            this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        } else {
+            int angle_force = 3;
+            float lambda = 0.5f;
+            float angle_delta = RandomGaussianGenerator.GenerateNormalRandom(0, 10.0f, -angle_force, angle_force);
+
+            angle_accel = lambda * angle_accel + (1 - lambda) * angle_delta;
+            this.speed = this.speed.Rotate(angle_accel);
+            this.GetComponent<Rigidbody2D>().velocity = this.speed;
+        }
     }
     
 

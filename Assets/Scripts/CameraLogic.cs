@@ -16,13 +16,16 @@ public class CameraLogic : MonoBehaviour
     [SerializeField]
     Player player;
 
+    float limite_distance = 10.0f;
+    float speed_max = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
         T_transition = 80;
         overall_size = this.GetComponent<Camera>().orthographicSize;
         overall_pos = this.gameObject.transform.position;
-        game_size = 5f;
+        game_size = 9f;
     }
 
     private void Initialize()
@@ -36,7 +39,7 @@ public class CameraLogic : MonoBehaviour
     {
         if (this.camera_state == CameraState.Game)
         {
-            transform.position = player.transform.position;
+            //transform.position = player.transform.position;
         }
         else if (this.camera_state == CameraState.Overall)
         {
@@ -62,7 +65,14 @@ public class CameraLogic : MonoBehaviour
         float lambda = (float)this.timer / (float)this.T_transition;
         this.GetComponent<Camera>().orthographicSize = lambda * game_size + (1 - lambda) * overall_size;
         Vector3 player_pos = player.transform.position;
-        this.gameObject.transform.position = lambda * new Vector3(player_pos.x, player_pos.y, overall_pos.z) + (1 - lambda) * overall_pos;
+        Vector3 target = lambda * new Vector3(player_pos.x, player_pos.y, overall_pos.z) + (1 - lambda) * overall_pos;
+
+        if (lambda < 1) {
+            this.transform.position = target;
+        } else {
+            this.transform.position += (target - transform.position).normalized * Mathf.Pow((target - transform.position).magnitude / limite_distance, 2) * speed_max;
+        }
+        
     }
 
     public float getOverallSize()
