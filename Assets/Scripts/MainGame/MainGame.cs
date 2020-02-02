@@ -192,15 +192,6 @@ public class MainGame : MonoBehaviour
                 pause_canvas.ButtonResumeClicked();
             }
         }
-        if (Input.GetKeyDown(KeyCode.T)) {
-            play();
-        }
-        if (Input.GetKeyDown(KeyCode.N)) {
-            start_syringe();
-        }
-        if (Input.GetKeyDown(KeyCode.B)) {
-            gameOver();
-        }
     }
 
     public void play(bool btutorial=false) {
@@ -512,7 +503,7 @@ public class MainGame : MonoBehaviour
             Text3.gameObject.SetActive(false);
 
             Vector2 rec = JaugeVie.GetComponent<RectTransform>().sizeDelta;
-            JaugeVie.GetComponent<RectTransform>().sizeDelta = new Vector2((float)life / life_max * JaugeVieLargeurMax, rec.y);
+            JaugeVie.GetComponent<RectTransform>().sizeDelta = new Vector2((float)life_display / life_max * JaugeVieLargeurMax, rec.y);
 
 
             TimerNextWave.text = "Next Wave : " + Mathf.Ceil(duration_wave - timer_wave) + " seconds";
