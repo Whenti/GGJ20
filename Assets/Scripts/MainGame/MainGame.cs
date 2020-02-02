@@ -408,7 +408,7 @@ public class MainGame : MonoBehaviour
 
     public void start_syringe()
     {
-        start_syringe();
+        syringe.Prepare();
         this.game_state = GameState.Injection;
     }
 
@@ -508,7 +508,7 @@ public class MainGame : MonoBehaviour
         //the function increment the timer so the player does not have to wait next wave
 
         //don't forget the syringe
-        syringe.Prepare();
+        start_syringe();
 
         timer_wave = Mathf.Max(timer_wave, duration_wave - difference_wave);
 
