@@ -108,7 +108,7 @@ public class WhiteCell : MonoBehaviour {
             this.speed = this.speed.Rotate(180.0f);
             this.GetComponent<Rigidbody2D>().velocity = this.speed;
         }
-        if (!is_inactive && collision.gameObject.tag == "myeline" && is_agressive)
+        if (!is_inactive && collision.gameObject.tag == "myeline" && is_agressive && !collision.GetComponent<Myeline>().isIncassable())
         {
             stayOnMyeline(collision.gameObject);
         }

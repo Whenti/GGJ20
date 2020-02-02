@@ -18,13 +18,13 @@ public class MainGame : MonoBehaviour
     //--------------------------------------------------------------------------------
     //------------------------  VICTORY AND GAME OVER---------------------------------
     //--------------------------------------------------------------------------------
-    
+
     public enum GameState { Game, Pause, Injection, NotPlaying, WaitingCamera, GameOver};
     public GameState game_state;
 
-    double life;
-    double life_display;
-    double life_max = 100;
+    float life;
+    float life_display;
+    float life_max = 100;
 
 
     //--------------------------------------------------------------------------------
@@ -68,13 +68,30 @@ public class MainGame : MonoBehaviour
     //--------------------------------------------------------------------------------
     [SerializeField] Syringe syringe;
 
+
+    //--------------------------------------------------------------------------------
+    //------------------------  UI                  ----------------------------------
+    //--------------------------------------------------------------------------------
+
+    [SerializeField] Canvas CanvasUI;
+
+    [SerializeField] Image JaugeVie;
+    [SerializeField] Image JaugeVieFond;
+    [SerializeField] Text TimerNextWave;
+    [SerializeField] Text TextWave;
+    float JaugeVieLargeurMax;
+
     // Start is called before the first frame update
     void Start()
     {
+        JaugeVieLargeurMax = JaugeVie.GetComponent<RectTransform>().sizeDelta.x;
         Initialize();
     }
 
     public void Initialize() {
+
+        CanvasUI.gameObject.SetActive(false);
+
         game_state = GameState.NotPlaying;
         timer_wave = 0;
         duration_wave = 4.0f;
@@ -134,6 +151,7 @@ public class MainGame : MonoBehaviour
                 break;
         }
         itemsManagement();
+        UIManagement();
 
         if (game_state != GameState.Pause)
             my_camera.update_camera();
@@ -164,6 +182,8 @@ public class MainGame : MonoBehaviour
     public void play() {
         my_camera.setState(CameraLogic.CameraState.ToGame);
         game_state = GameState.WaitingCamera;
+
+        CanvasUI.gameObject.SetActive(true);
     }
 
     public void quit()
@@ -171,6 +191,8 @@ public class MainGame : MonoBehaviour
         my_camera.setState(CameraLogic.CameraState.ToOverall);
         game_state = GameState.WaitingCamera;
         syringe.Initialize();
+        clean();
+        Initialize();
     }
 
     void wavesManagement() {
@@ -331,5 +353,15 @@ public class MainGame : MonoBehaviour
         foreach (Transform t in CellulesBlanches.transform) {
             Destroy(t.gameObject);
         }
+    }
+
+    void UIManagement() {
+
+        Vector2 rec = JaugeVie.GetComponent<RectTransform>().sizeDelta;
+        JaugeVie.GetComponent<RectTransform>().sizeDelta = new Vector2( (float)life/life_max*JaugeVieLargeurMax , rec.y);
+
+
+        TimerNextWave.text = "Time until next raid : " + Mathf.Ceil(duration_wave-timer_wave) + " seconds";
+        TextWave.text = "Wave " + current_wave + "/" + total_waves;
     }
 }

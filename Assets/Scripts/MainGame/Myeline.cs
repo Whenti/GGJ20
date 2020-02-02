@@ -160,4 +160,5 @@ public class Myeline : MonoBehaviour
     public bool isElectric() { return state == State.electric; }
     public bool isDestructed() { return state == State.destructed; }
     public bool isInvisible() { return state == State.invisible; }
+    public bool isIncassable() { return is_incassable; }
 }
