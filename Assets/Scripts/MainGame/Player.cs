@@ -49,6 +49,8 @@ public class Player : MonoBehaviour {
     float timer_hold;
     float duration_hold = 0.4f;
 
+    // SOUNDS
+    [SerializeField] GameObject sound_recolt;
 
     // Start is called before the first frame update
     void Start()
@@ -157,6 +159,7 @@ public class Player : MonoBehaviour {
 
             is_shooting = true;
             anim_shoot.start();
+            this.GetComponent<AudioSource>().Play();
 
             ammo.RemoveAt(ammo.Count - 1);
 
@@ -227,10 +230,12 @@ public class Player : MonoBehaviour {
         if (ammo.Count<ammo_max && collision.gameObject.tag == "mega_ammo" && !collision.GetComponent<Ammunition>().isShot()) {
             collision.GetComponent<Ammunition>().destroy();
             addAmmo("mega_ammo");
+            sound_recolt.GetComponent<AudioSource>().Play();
         }
         if (ammo.Count < ammo_max && collision.gameObject.tag == "ammo" && !collision.GetComponent<Ammunition>().isShot()) {
             collision.GetComponent<Ammunition>().destroy();
             addAmmo("ammo");
+            sound_recolt.GetComponent<AudioSource>().Play();
         }
     }
 
