@@ -14,6 +14,7 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     CameraLogic my_camera;
 
+    bool tutorial;
 
     //--------------------------------------------------------------------------------
     //------------------------  VICTORY AND GAME OVER---------------------------------
@@ -86,6 +87,7 @@ public class MainGame : MonoBehaviour
     {
         JaugeVieLargeurMax = JaugeVie.GetComponent<RectTransform>().sizeDelta.x;
         Initialize();
+        tutorial = true;
     }
 
     public void Initialize() {
@@ -175,14 +177,15 @@ public class MainGame : MonoBehaviour
             start_syringe();
         }
         if (Input.GetKeyDown(KeyCode.B)) {
-            gameOver();
+            //gameOver();
+            youWin();
         }
     }
 
-    public void play() {
+    public void play(bool tutorial=false) {
         my_camera.setState(CameraLogic.CameraState.ToGame);
         game_state = GameState.WaitingCamera;
-
+        tutorial = true;
         CanvasUI.gameObject.SetActive(true);
     }
 
@@ -338,6 +341,12 @@ public class MainGame : MonoBehaviour
     public void gameOver() {
         //afficher canvas game over
         pause_canvas.Activate(false);
+        this.game_state = GameState.GameOver;
+    }
+
+    public void youWin()
+    {
+        pause_canvas.Activate(false, true);
         this.game_state = GameState.GameOver;
     }
 

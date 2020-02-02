@@ -37,12 +37,15 @@ public class MenuLogic : MonoBehaviour
     [SerializeField]
     GameObject play_text;
     [SerializeField]
+    GameObject tutorial_text;
+    [SerializeField]
     GameObject left_paupiere;
     [SerializeField]
     GameObject right_paupiere;
 
     private enum MenuState { ClosedLeft, ClosedRight, Normal, Quitting, Playing };
     private MenuState menu_state;
+    private bool tutorial;
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +54,13 @@ public class MenuLogic : MonoBehaviour
         button_credit.GetComponent<Button>().onClick.AddListener(ButtonCreditClicked);
         button_quit_right.GetComponent<Button>().onClick.AddListener(ButtonQuitRightClicked);
         button_quit_left.GetComponent<Button>().onClick.AddListener(ButtonQuitLeftClicked);
+        tutorial = true;
         setState(MenuState.Normal);
+    }
+
+    public void setTutorialFalse()
+    {
+        tutorial = false;
     }
 
     void setState(MenuState menu)
@@ -62,7 +71,8 @@ public class MenuLogic : MonoBehaviour
             quit_text.gameObject.SetActive(true);
             sure_text_right.gameObject.SetActive(false);
             sure_text_left.gameObject.SetActive(false);
-            play_text.SetActive(true);
+            tutorial_text.SetActive(tutorial);
+            play_text.SetActive(!tutorial);
             left_paupiere.gameObject.SetActive(false);
             right_paupiere.gameObject.SetActive(false);
             credits_text.gameObject.SetActive(true);
@@ -96,12 +106,13 @@ public class MenuLogic : MonoBehaviour
             iris_right.quitMenu();
             canvas_menu.enabled = false;
             credits_text.SetActive(false);
+            tutorial_text.SetActive(false);
             quit_text.SetActive(false);
             sure_text_left.SetActive(false);
             sure_text_right.SetActive(false);
             play_text.SetActive(false);
 
-            GameObject.Find("MainGame").GetComponent<MainGame>().play();
+            GameObject.Find("MainGame").GetComponent<MainGame>().play(tutorial);
         }
     }
 
