@@ -118,6 +118,9 @@ public class MainGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        Debug.Log("Camera " + my_camera.camera_state);
+        Debug.Log("Game " + game_state);
         switch (game_state)
         {
             case GameState.WaitingCamera:
@@ -134,6 +137,13 @@ public class MainGame : MonoBehaviour
                 wavesManagement();
                 ammoGeneration();
                 healthManagement();
+                if (winConditions()) {
+                    youWin();
+                    return;
+                }
+                if (isWaveFinishedEarly()) {
+                    launchNextWave();
+                }
                 break;
             case GameState.Injection:
                 if (syringe.syringe_mode == Syringe.SyringeMode.Done)
@@ -177,20 +187,20 @@ public class MainGame : MonoBehaviour
             start_syringe();
         }
         if (Input.GetKeyDown(KeyCode.B)) {
-            //gameOver();
-            youWin();
+            gameOver();
         }
     }
 
-    public void play(bool tutorial=false) {
+    public void play(bool btutorial=false) {
         my_camera.setState(CameraLogic.CameraState.ToGame);
         game_state = GameState.WaitingCamera;
-        tutorial = true;
+        tutorial = btutorial;
         CanvasUI.gameObject.SetActive(true);
     }
 
     public void quit()
     {
+        Debug.Log("QUIT");
         my_camera.setState(CameraLogic.CameraState.ToOverall);
         game_state = GameState.WaitingCamera;
         syringe.Initialize();
@@ -215,13 +225,7 @@ public class MainGame : MonoBehaviour
             duration_wave = 50.0f;
         }
     }
-
-    public void waveEnded() {
-        //this functions is used when the player finished a wave early,
-        //the function increment the timer so the player does not have to wait next wave
-
-        timer_wave = Mathf.Max(timer_wave, duration_wave - 5.0f);
-    }
+    
 
     public void createWave(int number_cells) {
         for (int i = 0; i < number_cells; ++i) {
@@ -364,6 +368,38 @@ public class MainGame : MonoBehaviour
         }
     }
 
+    bool winConditions()  {
+
+        bool final_wave = (current_wave == total_waves);
+
+        return (all_repaired() && all_neutralized() && (final_wave || tutorial));
+
+    }
+
+    public bool all_repaired() {
+        bool all_repaired = true;
+
+        foreach (Transform t in Myelines.transform) {
+            if (t.tag=="myeline" && t.GetComponent<Myeline>().isDestructed()) {
+                all_repaired = false;
+            }
+        }
+
+        return all_repaired;
+    }
+
+    public bool all_neutralized() {
+        bool all_neutralized = true;
+
+        foreach (Transform t in CellulesBlanches.transform) {
+            if (t.GetComponent<WhiteCell>().isAgressive()) {
+                all_neutralized = false;
+            }
+        }
+        return all_neutralized;
+    }
+
+
     void UIManagement() {
 
         Vector2 rec = JaugeVie.GetComponent<RectTransform>().sizeDelta;
@@ -372,5 +408,21 @@ public class MainGame : MonoBehaviour
 
         TimerNextWave.text = "Time until next raid : " + Mathf.Ceil(duration_wave-timer_wave) + " seconds";
         TextWave.text = "Wave " + current_wave + "/" + total_waves;
+    }
+
+    bool isWaveFinishedEarly() {
+        return (all_neutralized() && all_repaired());
+    }
+
+    void launchNextWave() {
+
+        //this functions is used when the player finished a wave early,
+        //the function increment the timer so the player does not have to wait next wave
+
+        //don't forget the syringe
+        syringe.Prepare();
+
+        timer_wave = Mathf.Max(timer_wave, duration_wave - 5.0f);
+
     }
 }

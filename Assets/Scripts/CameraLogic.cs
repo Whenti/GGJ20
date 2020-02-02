@@ -89,23 +89,5 @@ public class CameraLogic : MonoBehaviour
     {
         this.camera_state = state;
     }
-
-    public void trigger()
-    {
-        switch (this.camera_state)
-        {
-            case CameraState.Overall:
-                this.camera_state = CameraState.ToGame;
-                break;
-            case CameraState.Game:
-                this.camera_state = CameraState.ToOverall;
-                break;
-            case CameraState.ToGame:
-                this.camera_state = CameraState.ToOverall;
-                break;
-            case CameraState.ToOverall:
-                this.camera_state = CameraState.ToGame;
-                break;
-        }
-    }
+    
 }

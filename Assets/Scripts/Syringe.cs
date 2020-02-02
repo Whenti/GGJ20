@@ -28,6 +28,8 @@ public class Syringe : MonoBehaviour
     Vector3 right_iris_scale;
     
     public enum SyringeMode {None, Waiting, Moving, Done};
+
+    bool already_gave_life;
     
     public SyringeMode syringe_mode;
     // Start is called before the first frame update
@@ -52,12 +54,13 @@ public class Syringe : MonoBehaviour
         right_iris.transform.localScale = right_iris_scale;
         this.transform.position = outside_pos;
         handle.transform.position = handle_initial_pos;
+        already_gave_life = false;
     }
 
     public void Prepare()
     {
         syringe_mode = SyringeMode.Waiting;
-        my_camera.trigger();
+        my_camera.setState(CameraLogic.CameraState.ToOverall) ;
     }
         
     // Update is called once per frame
@@ -98,6 +101,11 @@ public class Syringe : MonoBehaviour
             right_iris.transform.localScale = right_iris_scale + lambda * 0.8f * right_iris_scale;
             liquid.transform.localScale = new Vector3(1.0f, 1-lambda, 1.0f);
             this.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -40.0f);
+
+            if (!already_gave_life) {
+                already_gave_life = true;
+                GameObject.Find("MainGame").GetComponent<MainGame>().addHealth(50);
+            }
         }
         else if(timer < TIME_TO_NECK * 2 + TIME_ON_NECK)
         {
@@ -112,7 +120,7 @@ public class Syringe : MonoBehaviour
         else
         {
             syringe_mode = SyringeMode.Waiting;
-            my_camera.trigger();
+            my_camera.setState(CameraLogic.CameraState.ToGame);
         }
     }
 

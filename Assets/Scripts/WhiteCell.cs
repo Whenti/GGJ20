@@ -189,5 +189,9 @@ public class WhiteCell : MonoBehaviour {
         }
     }
 
+    public bool isAgressive() {
+        return is_agressive;
+    }
+
 
 }
