@@ -14409,8 +14409,8 @@ MonoBehaviour:
   - {fileID: 2070329355}
   - {fileID: 1648049106}
   - {fileID: 1837633319}
-  sprite_ammo: {fileID: 21300000, guid: c739653078a101b438def70ae28a5c59, type: 3}
-  sprite_mega_ammo: {fileID: 21300000, guid: 18fb5c48ac1634f41945fb4ddbab3bd0, type: 3}
+  sprite_ammo: {fileID: 21300000, guid: 6add76ff97e61274c970d3e062a6e29a, type: 3}
+  sprite_mega_ammo: {fileID: 21300000, guid: bdbe5f262b5bd76438876cf2976e877c, type: 3}
   syringe: {fileID: 51605122}
   CanvasUI: {fileID: 854104550}
   JaugeVie: {fileID: 1839573167}
