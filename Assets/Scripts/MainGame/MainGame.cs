@@ -8,6 +8,7 @@ public class MainGame : MonoBehaviour
 
     [SerializeField] Player player;
     [SerializeField] Transform posInitialePlayer;
+    [SerializeField] Transform posInitialePlayerTuto;
 
     [SerializeField] GameObject Myelines;
     [SerializeField] PauseLogic pause_canvas; 
@@ -103,7 +104,6 @@ public class MainGame : MonoBehaviour
         life_display = life;
 
         player.Initialize();
-        player.transform.position = posInitialePlayer.position;
 
 
         foreach (Transform t in Myelines.transform) {
@@ -196,6 +196,11 @@ public class MainGame : MonoBehaviour
         game_state = GameState.WaitingCamera;
         tutorial = btutorial;
         CanvasUI.gameObject.SetActive(true);
+        if (tutorial) {
+            player.transform.position = posInitialePlayerTuto.position;
+        } else {
+            player.transform.position = posInitialePlayer.position;
+        }
     }
 
     public void quit()

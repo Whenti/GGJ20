@@ -17,6 +17,8 @@ public class Myeline : MonoBehaviour
     public enum State { active, electric, destructed, invisible};
     State state;
 
+    [SerializeField] bool is_initially_destructed;
+
     [SerializeField] Sprite sprite_active;
     [SerializeField] Sprite sprite_electric;
     [SerializeField] Sprite sprite_destructed;
@@ -53,7 +55,11 @@ public class Myeline : MonoBehaviour
     }
 
     public void Initialize() {
-        state = State.active;
+        if (is_initially_destructed) {
+            state = State.destructed;
+        } else {
+            state = State.active;
+        }
         can_give_electric = true;
         timer_electricity = 0;
         timer_invisible = 0;
@@ -169,6 +175,8 @@ public class Myeline : MonoBehaviour
             timer_illumination += Time.deltaTime;
 
             if (timer_illumination >= duration_illumination) {
+                timer_illumination -= duration_illumination;
+
                 if ( illumination.gameObject.activeSelf) {
                     illumination.gameObject.SetActive(false);
                 } else {
