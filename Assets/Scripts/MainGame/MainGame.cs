@@ -94,7 +94,7 @@ public class MainGame : MonoBehaviour
 
         game_state = GameState.NotPlaying;
         timer_wave = 0;
-        duration_wave = 4.0f;
+        duration_wave = 5.0f;
         current_wave = 0;
 
         life = life_max;
@@ -209,7 +209,7 @@ public class MainGame : MonoBehaviour
             
 
             timer_wave = 0;
-            duration_wave = 10.0f;
+            duration_wave = 50.0f;
         }
     }
 
