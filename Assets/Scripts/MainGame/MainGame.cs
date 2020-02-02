@@ -177,7 +177,8 @@ public class MainGame : MonoBehaviour
             start_syringe();
         }
         if (Input.GetKeyDown(KeyCode.B)) {
-            gameOver();
+            //gameOver();
+            youWin();
         }
     }
 
@@ -340,6 +341,12 @@ public class MainGame : MonoBehaviour
     public void gameOver() {
         //afficher canvas game over
         pause_canvas.Activate(false);
+        this.game_state = GameState.GameOver;
+    }
+
+    public void youWin()
+    {
+        pause_canvas.Activate(false, true);
         this.game_state = GameState.GameOver;
     }
 

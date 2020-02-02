@@ -11,6 +11,7 @@ public class PauseLogic : MonoBehaviour
     [SerializeField] GameObject game_over;
     [SerializeField] MainGame main_game;
     [SerializeField] MenuLogic menu_logic;
+    [SerializeField] GameObject you_won;
 
     MainGame.GameState previous_game_state;
 
@@ -23,13 +24,14 @@ public class PauseLogic : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void Activate(bool b)
+    public void Activate(bool b, bool win = false)
     {
         previous_game_state = main_game.game_state;
         button_resume.MySetActive(b);
         button_quit.MySetActive(b);
         button_retry.MySetActive(!b);
-        game_over.gameObject.SetActive(!b);
+        you_won.gameObject.SetActive(!b && win);
+        game_over.gameObject.SetActive(!b && !win);
         this.gameObject.SetActive(true);
     }
 
