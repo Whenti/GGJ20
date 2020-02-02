@@ -10,6 +10,8 @@ public class Ammunition : MonoBehaviour
 
     bool shot=false;
 
+    public bool is_tuto { get; set; }
+
     Vector3 direction;
     float speed = 0.1f;
     Vector2 speedVector;

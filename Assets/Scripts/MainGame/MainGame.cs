@@ -15,7 +15,7 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     CameraLogic my_camera;
 
-    bool tutorial;
+    public bool tutorial;
 
     //--------------------------------------------------------------------------------
     //------------------------  VICTORY AND GAME OVER---------------------------------
@@ -44,7 +44,7 @@ public class MainGame : MonoBehaviour
     int current_wave;
     int total_waves=10;
 
-
+    float difference_wave = 5.0f;//temps avant prochaine vague si le joueur finit plus tôt
     //--------------------------------------------------------------------------------
     //------------------------  AMMO GENERATION     ----------------------------------
     //--------------------------------------------------------------------------------
@@ -83,6 +83,15 @@ public class MainGame : MonoBehaviour
     [SerializeField] Text TextWave;
     float JaugeVieLargeurMax;
 
+    //--------------------------------------------------------------------------------
+    //------------------------  TUTORIAL             ---------------------------------
+    //--------------------------------------------------------------------------------
+
+    [SerializeField] Transform generatorAmmo;
+    [SerializeField] Transform generatorMegaAmmo;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -104,6 +113,7 @@ public class MainGame : MonoBehaviour
         life_display = life;
 
         player.Initialize();
+        
 
 
         foreach (Transform t in Myelines.transform) {
@@ -131,16 +141,16 @@ public class MainGame : MonoBehaviour
                 }
                 break;
             case GameState.Game:
-                wavesManagement();
                 ammoGeneration();
                 healthManagement();
                 if (winConditions()) {
                     youWin();
                     return;
                 }
+                //wave management doit être après conditions victoire
+                wavesManagement();
                 if (isWaveFinishedEarly()) {
-                    //TODO: is always called
-                    //launchNextWave();
+                    launchNextWave();
                 }
                 break;
             case GameState.Injection:
@@ -210,20 +220,21 @@ public class MainGame : MonoBehaviour
     }
 
     void wavesManagement() {
+        if (!tutorial) {
+            if (current_wave < total_waves) {
+                //if we are at the final wave, there is no need to use the timer. Only use it when current_wave < total_waves
+                timer_wave += Time.deltaTime;
+            }
 
-        if (current_wave < total_waves) {
-            //if we are at the final wave, there is no need to use the timer. Only use it when current_wave < total_waves
-            timer_wave += Time.deltaTime;
-        }
+            if (timer_wave >= duration_wave) {
+                //new wave
+                current_wave++;
+                createWave(current_wave);
 
-        if (timer_wave >= duration_wave) {
-            //new wave
-            current_wave++;
-            createWave(current_wave);
-            
 
-            timer_wave = 0;
-            duration_wave = 50.0f;
+                timer_wave = 0;
+                duration_wave = 50.0f;
+            }
         }
     }
     
@@ -281,7 +292,17 @@ public class MainGame : MonoBehaviour
             } else {
                 createAmmo("mega_ammo");
             }
+
+
+            //tuto ammo
+            if (numberTutoAmmo()<5) {
+                createAmmoTuto();
+            }
+            if (numberTutoMegaAmmo()<5) {
+                createMegaAmmoTuto();
+            }
         }
+
     }
 
     public void createAmmo(string type) {
@@ -301,6 +322,45 @@ public class MainGame : MonoBehaviour
         }
     }
 
+    public void createAmmoTuto() {
+        Ammunition a = Ammunition.Instantiate(ammoPrefab);
+        
+        a.transform.SetParent(Ammunitions.transform, false);
+
+        a.transform.position = generatorAmmo.position;
+        a.is_tuto = true;
+    }
+
+    public void createMegaAmmoTuto() {
+        Ammunition a = Ammunition.Instantiate(megaAmmoPrefab);
+
+        a.transform.SetParent(Ammunitions.transform, false);
+
+        a.transform.position = generatorMegaAmmo.position;
+        a.is_tuto = true;
+
+    }
+
+    public int numberTutoAmmo() {
+        int n = 0;
+        foreach (Transform t in Ammunitions.transform) {
+            if (t.tag == "ammo" && t.GetComponent<Ammunition>().is_tuto) {
+                n++;
+            }
+        }
+        return n;
+    }
+    public int numberTutoMegaAmmo() {
+        int n = 0;
+        foreach (Transform t in Ammunitions.transform) {
+            if (t.tag == "mega_ammo" && t.GetComponent<Ammunition>().is_tuto) {
+                n++;
+            }
+        }
+        return n;
+    }
+
+
     public void addHealth(int i) {
         life += i;
 
@@ -308,32 +368,34 @@ public class MainGame : MonoBehaviour
     }
 
     void healthManagement() {
-        int num_sain =0;
-        int num_total = 0;
-        foreach (Transform t in Myelines.transform) {
-            num_total++;
-            if (t.tag=="myeline" && !t.GetComponent<Myeline>().isDestructed()) {
-                num_sain++;
+        if (!tutorial) {
+            int num_sain = 0;
+            int num_total = 0;
+            foreach (Transform t in Myelines.transform) {
+                num_total++;
+                if (t.tag == "myeline" && !t.GetComponent<Myeline>().isDestructed()) {
+                    num_sain++;
+                }
             }
-        }
 
-        //suivant le pourcentage de myeline absente, la santé descend plus vite
+            //suivant le pourcentage de myeline absente, la santé descend plus vite
 
-        life -= Mathf.Pow( 1-(float)num_sain/(float)num_total, 3);
+            life -= Mathf.Pow(1 - (float)num_sain / (float)num_total, 3);
 
-        float speed_life_display = 1.0f;
-        if (life < life_display - speed_life_display) {
-            life_display -= speed_life_display;
-        } else if (life > life_display + speed_life_display) {
-            life_display += speed_life_display;
-        } else {
-            life_display = life;
-        }
+            float speed_life_display = 1.0f;
+            if (life < life_display - speed_life_display) {
+                life_display -= speed_life_display;
+            } else if (life > life_display + speed_life_display) {
+                life_display += speed_life_display;
+            } else {
+                life_display = life;
+            }
 
 
-        if (life <= 0) {
-            life = 0;
-            gameOver();
+            if (life <= 0) {
+                life = 0;
+                gameOver();
+            }
         }
     }
 
@@ -402,17 +464,26 @@ public class MainGame : MonoBehaviour
 
 
     void UIManagement() {
+        if (tutorial) {
+            JaugeVieFond.gameObject.SetActive(false);
+            TimerNextWave.gameObject.SetActive(false);
+            TextWave.gameObject.SetActive(false);
+        } else {
+            JaugeVieFond.gameObject.SetActive(true);
+            TimerNextWave.gameObject.SetActive(true);
+            TextWave.gameObject.SetActive(true);
 
-        Vector2 rec = JaugeVie.GetComponent<RectTransform>().sizeDelta;
-        JaugeVie.GetComponent<RectTransform>().sizeDelta = new Vector2( (float)life/life_max*JaugeVieLargeurMax , rec.y);
+            Vector2 rec = JaugeVie.GetComponent<RectTransform>().sizeDelta;
+            JaugeVie.GetComponent<RectTransform>().sizeDelta = new Vector2((float)life / life_max * JaugeVieLargeurMax, rec.y);
 
 
-        TimerNextWave.text = "Time until next raid : " + Mathf.Ceil(duration_wave-timer_wave) + " seconds";
-        TextWave.text = "Wave " + current_wave + "/" + total_waves;
+            TimerNextWave.text = "Time until next raid : " + Mathf.Ceil(duration_wave - timer_wave) + " seconds";
+            TextWave.text = "Wave " + current_wave + "/" + total_waves;
+        }
     }
 
     bool isWaveFinishedEarly() {
-        return (all_neutralized() && all_repaired());
+        return (timer_wave>5.0f && timer_wave<duration_wave-difference_wave && all_neutralized() && all_repaired());
     }
 
     void launchNextWave() {
@@ -423,7 +494,7 @@ public class MainGame : MonoBehaviour
         //don't forget the syringe
         syringe.Prepare();
 
-        timer_wave = Mathf.Max(timer_wave, duration_wave - 5.0f);
+        timer_wave = Mathf.Max(timer_wave, duration_wave - difference_wave);
 
     }
 }

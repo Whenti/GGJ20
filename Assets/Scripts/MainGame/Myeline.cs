@@ -47,19 +47,20 @@ public class Myeline : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         sr = transform.GetChild(0).GetComponent<SpriteRenderer>();
 
         Initialize();
+
+        if (is_initially_destructed) {
+            state = State.destructed;
+        }
     }
 
     public void Initialize() {
-        if (is_initially_destructed) {
-            state = State.destructed;
-        } else {
-            state = State.active;
-        }
+        
+        state = State.active;
+        
         can_give_electric = true;
         timer_electricity = 0;
         timer_invisible = 0;
