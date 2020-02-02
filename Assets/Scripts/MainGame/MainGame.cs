@@ -81,6 +81,7 @@ public class MainGame : MonoBehaviour
     [SerializeField] Image JaugeVieFond;
     [SerializeField] Text TimerNextWave;
     [SerializeField] Text TextWave;
+    [SerializeField] Text RemainingCells;
     float JaugeVieLargeurMax;
 
     //--------------------------------------------------------------------------------
@@ -314,9 +315,9 @@ public class MainGame : MonoBehaviour
 
     public void createAmmo(string type) {
         Ammunition a = null;
-        if (type == "ammo") {
+        if (type == "ammo" && numberAmmo()<50) {
             a = Ammunition.Instantiate(ammoPrefab);
-        } else if (type == "mega_ammo") {
+        } else if (type == "mega_ammo" && numberMegaAmmo()<50) {
             a = Ammunition.Instantiate(megaAmmoPrefab);
         }
 
@@ -361,6 +362,25 @@ public class MainGame : MonoBehaviour
         int n = 0;
         foreach (Transform t in Ammunitions.transform) {
             if (t.tag == "mega_ammo" && t.GetComponent<Ammunition>().is_tuto) {
+                n++;
+            }
+        }
+        return n;
+    }
+
+    public int numberAmmo() {
+        int n = 0;
+        foreach (Transform t in Ammunitions.transform) {
+            if (t.tag == "ammo" ) {
+                n++;
+            }
+        }
+        return n;
+    }
+    public int numberMegaAmmo() {
+        int n = 0;
+        foreach (Transform t in Ammunitions.transform) {
+            if (t.tag == "mega_ammo" ) {
                 n++;
             }
         }
@@ -475,6 +495,7 @@ public class MainGame : MonoBehaviour
             JaugeVieFond.gameObject.SetActive(false);
             TimerNextWave.gameObject.SetActive(false);
             TextWave.gameObject.SetActive(false);
+            RemainingCells.gameObject.SetActive(false);
 
             Text1.gameObject.SetActive(true);
             Text2.gameObject.SetActive(true);
@@ -484,6 +505,7 @@ public class MainGame : MonoBehaviour
             JaugeVieFond.gameObject.SetActive(true);
             TimerNextWave.gameObject.SetActive(true);
             TextWave.gameObject.SetActive(true);
+            RemainingCells.gameObject.SetActive(true);
 
             Text1.gameObject.SetActive(false);
             Text2.gameObject.SetActive(false);
@@ -493,9 +515,24 @@ public class MainGame : MonoBehaviour
             JaugeVie.GetComponent<RectTransform>().sizeDelta = new Vector2((float)life / life_max * JaugeVieLargeurMax, rec.y);
 
 
-            TimerNextWave.text = "Time until next raid : " + Mathf.Ceil(duration_wave - timer_wave) + " seconds";
+            TimerNextWave.text = "Next Wave : " + Mathf.Ceil(duration_wave - timer_wave) + " seconds";
             TextWave.text = "Wave " + current_wave + "/" + total_waves;
+            RemainingCells.text = "Cells neutralized " + (numberCells()-numberAgressivesCells()) + "/" + numberCells();
         }
+    }
+
+    public int numberAgressivesCells() {
+        int n = 0;
+        foreach (Transform t in CellulesBlanches.transform) {
+            if (t.GetComponent<WhiteCell>().isAgressive()) {
+                n++;
+            }
+        }
+        return n;
+    }
+
+    public int numberCells() {
+        return CellulesBlanches.transform.childCount;
     }
 
     bool isWaveFinishedEarly() {
