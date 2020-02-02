@@ -408,7 +408,7 @@ public class MainGame : MonoBehaviour
 
     public void start_syringe()
     {
-        syringe.Prepare();
+        start_syringe();
         this.game_state = GameState.Injection;
     }
 
