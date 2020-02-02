@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class PauseLogic : MonoBehaviour
 {
-    [SerializeField] Button button_resume;
-    [SerializeField] Button button_quit;
-    [SerializeField] Button button_retry;
+    [SerializeField] Illuminated button_resume;
+    [SerializeField] Illuminated button_quit;
+    [SerializeField] Illuminated button_retry;
     [SerializeField] GameObject game_over;
     [SerializeField] MainGame main_game;
     [SerializeField] MenuLogic menu_logic;
@@ -26,16 +26,16 @@ public class PauseLogic : MonoBehaviour
     public void Activate(bool b)
     {
         previous_game_state = main_game.game_state;
-        button_resume.gameObject.SetActive(b);
-        button_quit.gameObject.SetActive(b);
-        button_retry.gameObject.SetActive(!b);
+        button_resume.MySetActive(b);
+        button_quit.MySetActive(b);
+        button_retry.MySetActive(!b);
         game_over.gameObject.SetActive(!b);
         this.gameObject.SetActive(true);
     }
 
     public void ButtonResumeClicked()
     {
-        if (button_resume.IsActive())
+        if (button_resume.MyIsActive())
         {
             this.gameObject.SetActive(false);
             main_game.game_state = previous_game_state;
