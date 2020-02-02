@@ -118,9 +118,6 @@ public class MainGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        Debug.Log("Camera " + my_camera.camera_state);
-        Debug.Log("Game " + game_state);
         switch (game_state)
         {
             case GameState.WaitingCamera:
@@ -142,7 +139,8 @@ public class MainGame : MonoBehaviour
                     return;
                 }
                 if (isWaveFinishedEarly()) {
-                    launchNextWave();
+                    //TODO: is always called
+                    //launchNextWave();
                 }
                 break;
             case GameState.Injection:
@@ -153,7 +151,6 @@ public class MainGame : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("injection");
                     syringe.update_injection();
                 }
                 break;
@@ -200,7 +197,6 @@ public class MainGame : MonoBehaviour
 
     public void quit()
     {
-        Debug.Log("QUIT");
         my_camera.setState(CameraLogic.CameraState.ToOverall);
         game_state = GameState.WaitingCamera;
         syringe.Initialize();
@@ -338,8 +334,8 @@ public class MainGame : MonoBehaviour
 
     public void start_syringe()
     {
-        syringe.Prepare();
-        this.game_state = GameState.Injection;
+        //syringe.Prepare();
+        //this.game_state = GameState.Injection;
     }
 
     public void gameOver() {

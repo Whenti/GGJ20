@@ -66,7 +66,6 @@ public class Syringe : MonoBehaviour
     // Update is called once per frame
     public void update_injection()
     {
-        Debug.Log(syringe_mode);
         if (syringe_mode == SyringeMode.None || syringe_mode == SyringeMode.Done)
             return;
         if (syringe_mode == SyringeMode.Waiting)
