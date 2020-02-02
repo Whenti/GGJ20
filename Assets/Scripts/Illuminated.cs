@@ -7,9 +7,23 @@ public class Illuminated : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 {
     [SerializeField] GameObject illumination;
 
+    bool is_active;
+
+    public void MySetActive(bool b)
+    {
+        illumination.gameObject.SetActive(false);
+        gameObject.SetActive(b);
+        is_active = b;
+    }
+
+    public bool MyIsActive()
+    {
+        return is_active;
+    }
+
     private void Start()
     {
-        illumination.SetActive(false);
+        MySetActive(true);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
