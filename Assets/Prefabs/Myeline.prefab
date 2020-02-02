@@ -215,7 +215,7 @@ MonoBehaviour:
   is_initially_destructed: 0
   sprite_active: {fileID: 21300000, guid: be1307de2d023b6448b16bab9575edea, type: 3}
   sprite_electric: {fileID: 21300000, guid: b2ac2ea962607794cbc8425293d42773, type: 3}
-  sprite_destructed: {fileID: 21300000, guid: 725cf2499fe912d43a0d7576e9361488, type: 3}
+  sprite_destructed: {fileID: 21300000, guid: 6552834e963df114ab7d2c63aa19ce96, type: 3}
 --- !u!61 &3886259762730153994
 BoxCollider2D:
   m_ObjectHideFlags: 0

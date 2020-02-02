@@ -15038,6 +15038,9 @@ MonoBehaviour:
   TextWave: {fileID: 7846594822864492867}
   generatorAmmo: {fileID: 1566910451}
   generatorMegaAmmo: {fileID: 413445621}
+  Text1: {fileID: 745549661}
+  Text2: {fileID: 412366903}
+  Text3: {fileID: 526812927}
 --- !u!4 &1421690944
 Transform:
   m_ObjectHideFlags: 0

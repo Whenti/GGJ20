@@ -90,6 +90,9 @@ public class MainGame : MonoBehaviour
     [SerializeField] Transform generatorAmmo;
     [SerializeField] Transform generatorMegaAmmo;
 
+    [SerializeField] SpriteRenderer Text1;
+    [SerializeField] SpriteRenderer Text2;
+    [SerializeField] SpriteRenderer Text3;
 
 
     // Start is called before the first frame update
@@ -296,13 +299,14 @@ public class MainGame : MonoBehaviour
                 createAmmo("mega_ammo");
             }
 
-
-            //tuto ammo
-            if (numberTutoAmmo()<5) {
-                createAmmoTuto();
-            }
-            if (numberTutoMegaAmmo()<5) {
-                createMegaAmmoTuto();
+            if (tutorial) {
+                //tuto ammo
+                if (numberTutoAmmo() < 5) {
+                    createAmmoTuto();
+                }
+                if (numberTutoMegaAmmo() < 5) {
+                    createMegaAmmoTuto();
+                }
             }
         }
 
@@ -471,10 +475,19 @@ public class MainGame : MonoBehaviour
             JaugeVieFond.gameObject.SetActive(false);
             TimerNextWave.gameObject.SetActive(false);
             TextWave.gameObject.SetActive(false);
+
+            Text1.gameObject.SetActive(true);
+            Text2.gameObject.SetActive(true);
+            Text3.gameObject.SetActive(true);
+
         } else {
             JaugeVieFond.gameObject.SetActive(true);
             TimerNextWave.gameObject.SetActive(true);
             TextWave.gameObject.SetActive(true);
+
+            Text1.gameObject.SetActive(false);
+            Text2.gameObject.SetActive(false);
+            Text3.gameObject.SetActive(false);
 
             Vector2 rec = JaugeVie.GetComponent<RectTransform>().sizeDelta;
             JaugeVie.GetComponent<RectTransform>().sizeDelta = new Vector2((float)life / life_max * JaugeVieLargeurMax, rec.y);
