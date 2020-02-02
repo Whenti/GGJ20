@@ -30,6 +30,7 @@ public class WhiteCell : MonoBehaviour {
     //--------------------------------------------------------------------------------
 
     bool is_agressive;
+    [SerializeField] bool is_mobile;
 
     //--------------------------------------------------------------------------------
     //------------------------  DESTROY MYELINE     ----------------------------------
@@ -155,17 +156,21 @@ public class WhiteCell : MonoBehaviour {
     void movementManagement() {
 
         //update `angle_accel` with `angle_var
-        if (on_myeline) {
+        if (is_mobile) {
+            if (on_myeline) {
 
-            this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            } else {
+                int angle_force = 3;
+                float lambda = 0.5f;
+                float angle_delta = RandomGaussianGenerator.GenerateNormalRandom(0, 10.0f, -angle_force, angle_force);
+
+                angle_accel = lambda * angle_accel + (1 - lambda) * angle_delta;
+                this.speed = this.speed.Rotate(angle_accel);
+                this.GetComponent<Rigidbody2D>().velocity = this.speed;
+            }
         } else {
-            int angle_force = 3;
-            float lambda = 0.5f;
-            float angle_delta = RandomGaussianGenerator.GenerateNormalRandom(0, 10.0f, -angle_force, angle_force);
-
-            angle_accel = lambda * angle_accel + (1 - lambda) * angle_delta;
-            this.speed = this.speed.Rotate(angle_accel);
-            this.GetComponent<Rigidbody2D>().velocity = this.speed;
+            this.GetComponent<Rigidbody2D>().velocity = Vector2.zero ;
         }
     }
     

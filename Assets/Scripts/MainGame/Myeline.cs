@@ -7,6 +7,7 @@ public class Myeline : MonoBehaviour
 
     [SerializeField] SpriteRenderer sr;
     [SerializeField] GameObject myelines;
+    [SerializeField] SpriteRenderer illumination;
 
     //--------------------------------------------------------------------------------
     //------------------------  STATE               ----------------------------------
@@ -35,6 +36,14 @@ public class Myeline : MonoBehaviour
     float limite_give_electricity = 2.0f;
     float limite_give_electricity_neurone = 4.0f;
 
+    //--------------------------------------------------------------------------------
+    //------------------------  ILLUMINATION          --------------------------------
+    //--------------------------------------------------------------------------------
+
+    float timer_illumination;
+    float duration_illumination = 1.0f;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,12 +57,15 @@ public class Myeline : MonoBehaviour
         can_give_electric = true;
         timer_electricity = 0;
         timer_invisible = 0;
+        illumination.gameObject.SetActive(false);
+        timer_illumination = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         electricityManagement();
+        illuminationManagement();
         //invisibleManagement();
     }
 
@@ -149,6 +161,23 @@ public class Myeline : MonoBehaviour
             
             
         }*/
+        }
+    }
+
+    void illuminationManagement() {
+        if (isDestructed()) {
+            timer_illumination += Time.deltaTime;
+
+            if (timer_illumination >= duration_illumination) {
+                if ( illumination.gameObject.activeSelf) {
+                    illumination.gameObject.SetActive(false);
+                } else {
+                    illumination.gameObject.SetActive(true);
+                }
+            }
+        } else {
+            timer_illumination = 0;
+            illumination.gameObject.SetActive(false);
         }
     }
 
