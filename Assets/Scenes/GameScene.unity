@@ -14660,6 +14660,7 @@ MonoBehaviour:
   Myelines: {fileID: 1162301481}
   pause_canvas: {fileID: 276607385}
   my_camera: {fileID: 845328601}
+  tutorial: 0
   game_state: 0
   Generators: {fileID: 2112105049}
   CellulesBlanches: {fileID: 1412488319}
@@ -14691,6 +14692,9 @@ MonoBehaviour:
   TextWave: {fileID: 7846594822864492867}
   generatorAmmo: {fileID: 1566910451}
   generatorMegaAmmo: {fileID: 413445621}
+  Text1: {fileID: 745549661}
+  Text2: {fileID: 412366903}
+  Text3: {fileID: 526812927}
 --- !u!4 &1421690944
 Transform:
   m_ObjectHideFlags: 0
